@@ -1,0 +1,466 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}Manage Notices | College Placement Portal{% endblock %}
+
+{% block notices_active %}active{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .container {
+        max-width: 1150px;
+        margin: 32px auto;
+        padding: 0 22px;
+    }
+
+    /* PAGE HEADER */
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .page-header h2 {
+        font-size: 27px;
+        color: #123b73;
+        margin-bottom: 6px;
+    }
+
+    .page-header p {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .add-btn {
+        text-decoration: none;
+        background: #198754;
+        color: white;
+        padding: 11px 17px;
+        border-radius: 7px;
+        font-weight: bold;
+        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(25,135,84,0.18);
+        transition: 0.2s;
+    }
+
+    .add-btn:hover {
+        background: #157347;
+        transform: translateY(-1px);
+    }
+
+    /* SUMMARY */
+
+    .summary-card {
+        background: white;
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+        border: 1px solid #edf0f5;
+    }
+
+    .summary-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+        background: #e8f1ff;
+        color: #0b3d91;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+    .summary-info h3 {
+        font-size: 22px;
+        color: #123b73;
+    }
+
+    .summary-info p {
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 3px;
+    }
+
+    /* NOTICE CARD */
+
+    .notice-card {
+        background: white;
+        padding: 24px;
+        margin-bottom: 18px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        border: 1px solid #edf0f5;
+        transition: 0.2s;
+    }
+
+    .notice-card:hover {
+        box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+    }
+
+    /* NOTICE HEADER */
+
+    .notice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .notice-title {
+        color: #123b73;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .notice-date {
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    /* STATUS */
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .status.active {
+        background: #dff5e3;
+        color: #1b7a35;
+    }
+
+    .status.inactive {
+        background: #eeeeee;
+        color: #777;
+    }
+
+    /* DESCRIPTION */
+
+    .description {
+        color: #4b5563;
+        line-height: 1.7;
+        margin: 18px 0;
+        font-size: 14px;
+        padding: 14px 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+    }
+
+    /* ACTIONS */
+
+    .actions {
+        display: flex;
+        gap: 9px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .actions form {
+        margin: 0;
+    }
+
+    .edit-btn,
+    .toggle-btn,
+    .delete-btn {
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .edit-btn {
+        background: #e8f1ff;
+        color: #0b3d91;
+        text-decoration: none;
+        border: none;
+    }
+
+    .edit-btn:hover {
+        background: #d4e5ff;
+    }
+
+    .toggle-btn {
+        background: #f3f4f6;
+        color: #4b5563;
+        border: 1px solid #d1d5db;
+    }
+
+    .toggle-btn:hover {
+        background: #e5e7eb;
+    }
+
+    .delete-btn {
+        background: #ffe8e8;
+        color: #c62828;
+        border: none;
+    }
+
+    .delete-btn:hover {
+        background: #ffd2d2;
+    }
+
+    /* EMPTY */
+
+    .empty {
+        background: white;
+        padding: 60px 20px;
+        text-align: center;
+        border-radius: 12px;
+        color: #6b7280;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .empty-icon {
+        font-size: 38px;
+        margin-bottom: 12px;
+    }
+
+    .empty h3 {
+        color: #374151;
+        margin-bottom: 7px;
+    }
+
+    .empty p {
+        font-size: 14px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 700px) {
+
+        .container {
+            margin-top: 22px;
+            padding: 0 14px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-header h2 {
+            font-size: 23px;
+        }
+
+        .add-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .summary-card {
+            padding: 15px;
+        }
+
+        .notice-card {
+            padding: 18px;
+        }
+
+        .notice-header {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status {
+            align-self: flex-start;
+        }
+
+        .description {
+            font-size: 13px;
+        }
+
+        .actions {
+            width: 100%;
+        }
+
+        .edit-btn,
+        .toggle-btn,
+        .delete-btn {
+            flex: 1;
+            text-align: center;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>Manage Notices</h2>
+
+            <p>
+                Create and manage important placement announcements for students.
+            </p>
+
+        </div>
+
+        <a href="{% url 'add_notice' %}" class="add-btn">
+            + Add Notice
+        </a>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            📢
+        </div>
+
+        <div class="summary-info">
+
+            <h3>{{ notices|length }}</h3>
+
+            <p>Total Placement Notices</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- NOTICES -->
+
+    {% if notices %}
+
+        {% for notice in notices %}
+
+            <div class="notice-card">
+
+                <div class="notice-header">
+
+                    <div>
+
+                        <h3 class="notice-title">
+                            {{ notice.title }}
+                        </h3>
+
+                        <div class="notice-date">
+                            Posted on {{ notice.notice_date }}
+                        </div>
+
+                    </div>
+
+
+                    {% if notice.is_active %}
+
+                        <span class="status active">
+                            ● Active
+                        </span>
+
+                    {% else %}
+
+                        <span class="status inactive">
+                            ● Inactive
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="description">
+                    {{ notice.description }}
+                </div>
+
+
+                <div class="actions">
+
+                    <a
+                        href="{% url 'edit_notice' notice.id %}"
+                        class="edit-btn"
+                    >
+                        ✏ Edit
+                    </a>
+
+
+                    <form
+                        method="POST"
+                        action="{% url 'toggle_notice' notice.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="toggle-btn"
+                        >
+
+                            {% if notice.is_active %}
+                                Deactivate
+                            {% else %}
+                                Activate
+                            {% endif %}
+
+                        </button>
+
+                    </form>
+
+
+                    <form
+                        method="POST"
+                        action="{% url 'delete_notice' notice.id %}"
+                        onsubmit="return confirm('Are you sure you want to delete this notice?');"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="delete-btn"
+                        >
+                            🗑 Delete
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📢
+            </div>
+
+            <h3>No Notices Found</h3>
+
+            <p>
+                No placement notices are currently available.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

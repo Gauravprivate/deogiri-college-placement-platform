@@ -1,0 +1,707 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Online Test Results | College Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #0f2f67;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sidebar a,
+        .logout-btn {
+            display: block;
+            width: 100%;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active,
+        .logout-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 7px;
+            color: #0f2f67;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .test-info {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            margin-bottom: 22px;
+        }
+
+        .test-info h2 {
+            margin: 0 0 15px;
+            color: #0f2f67;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 14px;
+            border-radius: 7px;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #1f2937;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 18px;
+            border-radius: 9px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .summary-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .summary-value {
+            color: #0f2f67;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .table-card {
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-card h2 {
+            margin: 0 0 7px;
+            color: #0f2f67;
+            font-size: 21px;
+        }
+
+        .section-description {
+            margin: 0 0 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th,
+        td {
+            padding: 13px 11px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+            font-size: 12px;
+        }
+
+        td {
+            font-size: 13px;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .student-name {
+            color: #0f2f67;
+            font-weight: bold;
+        }
+
+        .sub-text {
+            color: #6b7280;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .not-started {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .submitted {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .passed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .failed {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #0f2f67;
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+            color: #374151;
+        }
+
+        @media (max-width: 1000px) {
+            .info-grid,
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .sidebar a,
+            .logout-form {
+                display: inline-block;
+                width: auto;
+                margin: 3px;
+            }
+
+            .logout-btn {
+                width: auto;
+                margin: 0;
+            }
+
+            .main {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 15px;
+            }
+
+            .info-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-card {
+                padding: 17px;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <h2>College Admin</h2>
+
+            <a href="{% url 'admin_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'manage_students' %}">
+                Manage Students
+            </a>
+
+            <a href="{% url 'add_student' %}">
+                Add Student
+            </a>
+
+            <a href="{% url 'manage_recruiters' %}">
+                Manage Recruiters
+            </a>
+
+            <a href="{% url 'manage_jobs' %}">
+                Manage Jobs
+            </a>
+
+            <a href="{% url 'manage_notices' %}">
+                Manage Notices
+            </a>
+
+            <a href="{% url 'manage_interviews' %}">
+                Manage Interviews
+            </a>
+
+            <a href="{% url 'manage_online_tests' %}" class="active">
+                Manage Online Tests
+            </a>
+
+            <a href="/admin/">
+                Django Admin
+            </a>
+
+            <form
+                method="post"
+                action="{% url 'college_admin_logout' %}"
+                class="logout-form"
+            >
+                {% csrf_token %}
+
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="page-header">
+
+                <h1>Online Test Results</h1>
+
+                <p>
+                    Review student participation and results for this test.
+                </p>
+
+            </div>
+
+            <div class="test-info">
+
+                <h2>{{ online_test.title }}</h2>
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+                        <div class="info-label">Company</div>
+
+                        <div class="info-value">
+                            {{ online_test.job.company_name }}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Job</div>
+
+                        <div class="info-value">
+                            {{ online_test.job.job_title }}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Test Type</div>
+
+                        <div class="info-value">
+                            {{ online_test.test_type }}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Passing Percentage</div>
+
+                        <div class="info-value">
+                            {{ online_test.passing_percentage }}%
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Total Assigned
+                    </div>
+
+                    <div class="summary-value">
+                        {{ total_assigned }}
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Submitted
+                    </div>
+
+                    <div class="summary-value">
+                        {{ total_submitted }}
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Passed
+                    </div>
+
+                    <div class="summary-value">
+                        {{ total_passed }}
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">
+                        Pending / In Progress
+                    </div>
+
+                    <div class="summary-value">
+                        {{ total_pending }}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <h2>Student Results</h2>
+
+                <p class="section-description">
+                    This table shows every student assigned to this test
+                    and their current attempt status.
+                </p>
+
+                {% if assignments %}
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th>PRN</th>
+                                    <th>Course</th>
+                                    <th>Application</th>
+                                    <th>Attempt Status</th>
+                                    <th>Score</th>
+                                    <th>Percentage</th>
+                                    <th>Result</th>
+                                    <th>Submitted At</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for assignment in assignments %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+
+                                        <td>
+
+                                            <div class="student-name">
+                                                {{ assignment.application.student.name }}
+                                            </div>
+
+                                            <div class="sub-text">
+                                                {{ assignment.application.student.email }}
+                                            </div>
+
+                                        </td>
+
+                                        <td>
+                                            {{ assignment.application.student.prn }}
+                                        </td>
+
+                                        <td>
+                                            {{ assignment.application.student.course }}
+                                        </td>
+
+                                        <td>
+                                            {{ assignment.application.status }}
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt %}
+
+                                                {% if assignment.attempt.status == "Submitted" %}
+
+                                                    <span class="badge submitted">
+                                                        Submitted
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="badge in-progress">
+                                                        In Progress
+                                                    </span>
+
+                                                {% endif %}
+
+                                            {% else %}
+
+                                                <span class="badge not-started">
+                                                    Not Started
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt and assignment.attempt.status == "Submitted" %}
+
+                                                {{ assignment.attempt.score }}
+                                                /
+                                                {{ assignment.attempt.total_marks }}
+
+                                            {% else %}
+
+                                                —
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt and assignment.attempt.status == "Submitted" %}
+
+                                                {{ assignment.attempt.percentage }}%
+
+                                            {% else %}
+
+                                                —
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt and assignment.attempt.status == "Submitted" %}
+
+                                                {% if assignment.attempt.passed %}
+
+                                                    <span class="badge passed">
+                                                        Passed
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="badge failed">
+                                                        Not Passed
+                                                    </span>
+
+                                                {% endif %}
+
+                                            {% else %}
+
+                                                —
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt and assignment.attempt.submitted_at %}
+
+                                                {{ assignment.attempt.submitted_at|date:"d M Y, h:i A" }}
+
+                                            {% else %}
+
+                                                —
+
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+
+                        <h3>No Students Assigned</h3>
+
+                        <p>
+                            No students have been assigned to this
+                            online test yet.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+                <a
+                    href="{% url 'manage_online_tests' %}"
+                    class="back-btn"
+                >
+                    Back to Online Tests
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

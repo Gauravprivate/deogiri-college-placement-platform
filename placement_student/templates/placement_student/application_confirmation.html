@@ -1,0 +1,525 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Confirmation</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .confirmation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.10);
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            margin: 0 0 8px;
+            color: #1e3a8a;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .drive-box {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 18px;
+            border-radius: 6px;
+            margin-bottom: 28px;
+        }
+
+        .drive-box h3 {
+            margin: 0 0 8px;
+            color: #1e3a8a;
+        }
+
+        .drive-box p {
+            margin: 5px 0;
+        }
+
+        .section-title {
+            color: #1f2937;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .question {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 17px;
+            margin-bottom: 14px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .options {
+            display: flex;
+            gap: 25px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+        }
+
+        .option input {
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        .declaration {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+        .declaration-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #9a3412;
+        }
+
+        .declaration label {
+            display: flex;
+            gap: 10px;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .declaration input {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .back-btn,
+        .apply-btn {
+            text-decoration: none;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .apply-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .apply-btn:hover {
+            background: #15803d;
+        }
+
+        @media (max-width: 600px) {
+
+            .confirmation-card {
+                padding: 20px;
+            }
+
+            .options {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .buttons {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .back-btn,
+            .apply-btn {
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- College Banner -->
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        class="college-banner"
+        alt="Deogiri College"
+    >
+
+
+    <div class="container">
+
+        <div class="confirmation-card">
+
+            <!-- PAGE TITLE -->
+
+            <div class="page-title">
+
+                <h2>Application Confirmation</h2>
+
+                <p>
+                    Please review and confirm the information below
+                    before submitting your application.
+                </p>
+
+            </div>
+
+
+            <!-- RECRUITMENT DRIVE -->
+
+            <div class="drive-box">
+
+                <h3>Recruitment Drive</h3>
+
+                <p>
+                    <strong>Company:</strong>
+                    {{ job.company_name }}
+                </p>
+
+                <p>
+                    <strong>Position:</strong>
+                    {{ job.job_title }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ job.location }}
+                </p>
+
+                <p>
+                    <strong>Salary:</strong>
+                    {{ job.salary }}
+                </p>
+
+            </div>
+
+
+            {% if error %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- COMPANY QUESTIONS -->
+
+                <h3 class="section-title">
+                    Company Questions
+                </h3>
+
+
+                <!-- QUESTION 1 -->
+
+                <div class="question">
+
+                    <div class="question-text">
+                        Are you willing to relocate?
+                    </div>
+
+                    <div class="options">
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="willing_to_relocate"
+                                value="Yes"
+                                required
+                            >
+                            Yes
+                        </label>
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="willing_to_relocate"
+                                value="No"
+                            >
+                            No
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION 2 -->
+
+                <div class="question">
+
+                    <div class="question-text">
+                        Are you comfortable with the offered work location?
+                    </div>
+
+                    <div class="options">
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="comfortable_with_location"
+                                value="Yes"
+                                required
+                            >
+                            Yes
+                        </label>
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="comfortable_with_location"
+                                value="No"
+                            >
+                            No
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION 3 -->
+
+                <div class="question">
+
+                    <div class="question-text">
+                        Are you willing to work in shifts, if required?
+                    </div>
+
+                    <div class="options">
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="willing_to_work_shifts"
+                                value="Yes"
+                                required
+                            >
+                            Yes
+                        </label>
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="willing_to_work_shifts"
+                                value="No"
+                            >
+                            No
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION 4 -->
+
+                <div class="question">
+
+                    <div class="question-text">
+                        Do you have any active backlogs?
+                    </div>
+
+                    <div class="options">
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="has_active_backlogs"
+                                value="Yes"
+                                required
+                            >
+                            Yes
+                        </label>
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="has_active_backlogs"
+                                value="No"
+                            >
+                            No
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION 5 -->
+
+                <div class="question">
+
+                    <div class="question-text">
+                        Are you available to join from the mentioned date?
+                    </div>
+
+                    <div class="options">
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="available_to_join"
+                                value="Yes"
+                                required
+                            >
+                            Yes
+                        </label>
+
+                        <label class="option">
+                            <input
+                                type="radio"
+                                name="available_to_join"
+                                value="No"
+                            >
+                            No
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DECLARATION -->
+
+                <h3 class="section-title">
+                    Declaration
+                </h3>
+
+                <div class="declaration">
+
+                    <div class="declaration-title">
+                        Student Declaration
+                    </div>
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            name="declaration_accepted"
+                            required
+                        >
+
+                        <span>
+                            I confirm that the information provided by me
+                            is true and accurate. I understand that providing
+                            incorrect information may lead to cancellation
+                            of my candidature. I agree to participate in the
+                            recruitment process according to the rules and
+                            requirements of the company and the College
+                            Placement Cell.
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="buttons">
+
+                    <a
+                        href="{% url 'available_jobs' %}"
+                        class="back-btn"
+                    >
+                        ← Back
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="apply-btn"
+                    >
+                        Agree & Apply
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

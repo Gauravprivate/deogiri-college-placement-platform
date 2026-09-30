@@ -1,0 +1,577 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Online Test | Recruiter Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #0f2f67;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1d4ed8;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 7px;
+            color: #0f2f67;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .form-card {
+            max-width: 900px;
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            margin: 0 0 20px;
+            color: #0f2f67;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #fecaca;
+        }
+
+        .status-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 15px;
+            margin-bottom: 22px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-row input {
+            width: auto;
+            margin: 0;
+            transform: scale(1.2);
+        }
+
+        .checkbox-row label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 6px;
+            padding: 11px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .primary-btn {
+            background: #0f2f67;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .secondary-btn:hover {
+            background: #d1d5db;
+        }
+
+        .questions-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .questions-btn:hover {
+            background: #bfdbfe;
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 3px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <h2>Recruiter Portal</h2>
+
+            <a href="{% url 'recruiter_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'post_job' %}">
+                Post New Job
+            </a>
+
+            <a href="{% url 'my_jobs' %}">
+                My Posted Jobs
+            </a>
+
+            <a href="{% url 'recruiter_interviews' %}">
+                Interviews
+            </a>
+
+            <a href="{% url 'recruiter_tests' %}" class="active">
+                Online Tests
+            </a>
+
+            <a href="{% url 'recruiter_logout' %}">
+                Logout
+            </a>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="page-header">
+                <h1>Edit Online Test</h1>
+
+                <p>
+                    Update test information, duration, passing
+                    percentage, deadline, or availability.
+                </p>
+            </div>
+
+            <div class="form-card">
+
+                <h2 class="section-title">
+                    {{ online_test.title }}
+                </h2>
+
+                {% if error %}
+                    <div class="error-box">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+                            <label for="job">
+                                Job *
+                            </label>
+
+                            <select
+                                id="job"
+                                name="job"
+                                required
+                            >
+                                {% for job in jobs %}
+
+                                    <option
+                                        value="{{ job.id }}"
+
+                                        {% if form_data.job %}
+                                            {% if form_data.job == job.id|stringformat:"s" %}
+                                                selected
+                                            {% endif %}
+                                        {% elif online_test.job.id == job.id %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        {{ job.job_title }} -
+                                        {{ job.company_name }}
+                                    </option>
+
+                                {% endfor %}
+                            </select>
+
+                            <span class="help-text">
+                                Only applicants of the selected job
+                                can be assigned this test.
+                            </span>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="title">
+                                Test Title *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                value="{% if form_data.title %}{{ form_data.title }}{% else %}{{ online_test.title }}{% endif %}"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="test_type">
+                                Test Type *
+                            </label>
+
+                            <select
+                                id="test_type"
+                                name="test_type"
+                                required
+                            >
+                                <option
+                                    value="Aptitude"
+                                    {% if form_data.test_type == "Aptitude" or not form_data.test_type and online_test.test_type == "Aptitude" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Aptitude
+                                </option>
+
+                                <option
+                                    value="Technical"
+                                    {% if form_data.test_type == "Technical" or not form_data.test_type and online_test.test_type == "Technical" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Technical
+                                </option>
+
+                                <option
+                                    value="Mixed"
+                                    {% if form_data.test_type == "Mixed" or not form_data.test_type and online_test.test_type == "Mixed" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Mixed
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration_minutes">
+                                Duration (Minutes) *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="duration_minutes"
+                                name="duration_minutes"
+                                min="1"
+                                value="{% if form_data.duration_minutes %}{{ form_data.duration_minutes }}{% else %}{{ online_test.duration_minutes }}{% endif %}"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="passing_percentage">
+                                Passing Percentage *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="passing_percentage"
+                                name="passing_percentage"
+                                min="0"
+                                max="100"
+                                value="{% if form_data.passing_percentage %}{{ form_data.passing_percentage }}{% else %}{{ online_test.passing_percentage }}{% endif %}"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="test_deadline">
+                                Test Deadline *
+                            </label>
+
+                            <input
+                                type="datetime-local"
+                                id="test_deadline"
+                                name="test_deadline"
+                                value="{% if form_data.test_deadline %}{{ form_data.test_deadline }}{% else %}{{ online_test.test_deadline|date:'Y-m-d\TH:i' }}{% endif %}"
+                                required
+                            >
+
+                            <span class="help-text">
+                                The deadline must be in the future.
+                            </span>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="description">
+                                Description
+                            </label>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                            >{% if form_data.description %}{{ form_data.description }}{% else %}{{ online_test.description }}{% endif %}</textarea>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="instructions">
+                                Instructions
+                            </label>
+
+                            <textarea
+                                id="instructions"
+                                name="instructions"
+                            >{% if form_data.instructions %}{{ form_data.instructions }}{% else %}{{ online_test.instructions }}{% endif %}</textarea>
+                        </div>
+
+                        <div class="form-group full">
+
+                            <div class="status-box">
+
+                                <div class="checkbox-row">
+
+                                    <input
+                                        type="checkbox"
+                                        id="is_active"
+                                        name="is_active"
+
+                                        {% if form_data %}
+                                            {% if form_data.is_active %}
+                                                checked
+                                            {% endif %}
+                                        {% elif online_test.is_active %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <label for="is_active">
+                                        Test is Active
+                                    </label>
+
+                                </div>
+
+                                <span class="help-text">
+                                    If disabled, students will not be
+                                    allowed to start this test.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="btn primary-btn"
+                        >
+                            Save Changes
+                        </button>
+
+                        <a
+                            href="{% url 'manage_test_questions' online_test.id %}"
+                            class="btn questions-btn"
+                        >
+                            Manage Questions
+                        </a>
+
+                        <a
+                            href="{% url 'recruiter_tests' %}"
+                            class="btn secondary-btn"
+                        >
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

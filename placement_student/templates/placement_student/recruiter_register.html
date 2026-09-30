@@ -1,0 +1,687 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Company Registration | Deogiri College Placement Portal
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* =========================
+           COLLEGE BANNER
+        ========================= */
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #8B1E5C;
+            color: white;
+            padding: 18px 30px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        /* =========================
+           PAGE CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title h2 {
+            color: #8B1E5C;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+            color: #8B1E5C;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 28px 0 18px;
+            padding-bottom: 9px;
+            border-bottom: 2px solid #eeeeee;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #8B1E5C;
+            box-shadow: 0 0 0 3px rgba(139, 30, 92, 0.08);
+        }
+
+        textarea {
+            min-height: 105px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+
+        /* =========================
+           PASSWORD HELP
+        ========================= */
+
+        .password-help {
+            margin-top: 7px;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           VERIFICATION INFO
+        ========================= */
+
+        .info-box {
+            background: #fff8e1;
+            border-left: 4px solid #FFB800;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.7;
+            border-radius: 5px;
+        }
+
+        .info-box strong {
+            color: #7c5200;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .button-container {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .register-button {
+            background: #FFB800;
+            color: #222;
+            border: none;
+            padding: 13px 38px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .register-button:hover {
+            background: #e6a600;
+        }
+
+        /* =========================
+           LOGIN LINK
+        ========================= */
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .login-link a {
+            color: #8B1E5C;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           MOBILE RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header h1 {
+                font-size: 21px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 14px;
+            }
+
+            .card {
+                padding: 24px 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .title h2 {
+                font-size: 23px;
+            }
+
+            .register-button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- =========================
+         COLLEGE BANNER
+    ========================== -->
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="header">
+
+        <h1>
+            College Placement Portal
+        </h1>
+
+        <p>
+            Company Registration & Verification
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <div class="container">
+
+        <div class="card">
+
+
+            <!-- PAGE TITLE -->
+
+            <div class="title">
+
+                <h2>
+                    Company Registration
+                </h2>
+
+                <p>
+                    Register your company to participate in
+                    Deogiri College placement activities.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 ERROR MESSAGE
+            ========================== -->
+
+            {% if error %}
+
+                <div class="error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                 SUCCESS MESSAGE
+            ========================== -->
+
+            {% if success %}
+
+                <div class="success">
+                    {{ success }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                 REGISTRATION FORM
+            ========================== -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- =========================
+                     COMPANY INFORMATION
+                ========================== -->
+
+                <div class="section-title">
+                    Company Information
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <!-- COMPANY NAME -->
+
+                    <div class="form-group">
+
+                        <label for="company_name">
+
+                            Company Name
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="company_name"
+                            name="company_name"
+                            value="{{ company_name|default:'' }}"
+                            placeholder="Enter company name"
+                            autocomplete="organization"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- COMPANY WEBSITE -->
+
+                    <div class="form-group">
+
+                        <label for="company_website">
+                            Company Website
+                        </label>
+
+                        <input
+                            type="url"
+                            id="company_website"
+                            name="company_website"
+                            value="{{ company_website|default:'' }}"
+                            placeholder="https://www.example.com"
+                            autocomplete="url"
+                        >
+
+                    </div>
+
+
+                    <!-- COMPANY DESCRIPTION -->
+
+                    <div class="form-group full">
+
+                        <label for="company_description">
+                            Company Description
+                        </label>
+
+                        <textarea
+                            id="company_description"
+                            name="company_description"
+                            placeholder="Briefly describe your company..."
+                        >{{ company_description|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- COMPANY ADDRESS -->
+
+                    <div class="form-group full">
+
+                        <label for="company_address">
+                            Company Address
+                        </label>
+
+                        <textarea
+                            id="company_address"
+                            name="company_address"
+                            placeholder="Enter company address..."
+                            autocomplete="street-address"
+                        >{{ company_address|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- COMPANY CONTACT -->
+
+                    <div class="form-group">
+
+                        <label for="company_contact">
+                            Company Contact
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="company_contact"
+                            name="company_contact"
+                            value="{{ company_contact|default:'' }}"
+                            placeholder="Enter contact number"
+                            autocomplete="tel"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     RECRUITER INFORMATION
+                ========================== -->
+
+                <div class="section-title">
+                    Recruiter Information
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <!-- RECRUITER NAME -->
+
+                    <div class="form-group">
+
+                        <label for="recruiter_name">
+
+                            Recruiter Name
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="recruiter_name"
+                            name="recruiter_name"
+                            value="{{ recruiter_name|default:'' }}"
+                            placeholder="Enter recruiter name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+
+                            Email Address
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ email|default:'' }}"
+                            placeholder="Enter recruiter email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group full">
+
+                        <label for="password">
+
+                            Password
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a secure password"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <div class="password-help">
+
+                            Password must contain at least
+                            8 characters.
+
+                            Your password will be stored securely
+                            and will be required when logging in
+                            to the Recruiter Portal.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     VERIFICATION INFORMATION
+                ========================== -->
+
+                <div class="info-box">
+
+                    <strong>
+                        Verification Process:
+                    </strong>
+
+                    After registration, your company account will
+                    remain <strong>Pending</strong> until the
+                    College Placement Administrator verifies and
+                    approves your registration.
+
+                    You will be able to log in and post jobs only
+                    after approval.
+
+                </div>
+
+
+                <!-- =========================
+                     REGISTER BUTTON
+                ========================== -->
+
+                <div class="button-container">
+
+                    <button
+                        type="submit"
+                        class="register-button"
+                    >
+                        Register Company
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- =========================
+                 LOGIN LINK
+            ========================== -->
+
+            <div class="login-link">
+
+                Already registered?
+
+                <a href="{% url 'recruiter_login' %}">
+                    Recruiter Login
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,515 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}Manage Online Tests | College Admin{% endblock %}
+
+{% block tests_active %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* PAGE HEADER */
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-header h1 {
+        margin: 0 0 7px;
+        color: #0f2f67;
+        font-size: 28px;
+    }
+
+    .page-header p {
+        margin: 0;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    /* SUMMARY */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: white;
+        padding: 18px;
+        border-radius: 9px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    .summary-label {
+        color: #6b7280;
+        font-size: 12px;
+        margin-bottom: 7px;
+    }
+
+    .summary-value {
+        color: #0f2f67;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    /* TABLE */
+
+    .table-card {
+        background: white;
+        padding: 24px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .table-card h2 {
+        margin: 0 0 7px;
+        color: #0f2f67;
+        font-size: 21px;
+    }
+
+    .section-description {
+        margin: 0 0 20px;
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1150px;
+    }
+
+    th,
+    td {
+        padding: 13px 11px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+        vertical-align: middle;
+    }
+
+    th {
+        background: #f8fafc;
+        color: #374151;
+        font-size: 12px;
+    }
+
+    td {
+        font-size: 13px;
+    }
+
+    tr:hover td {
+        background: #fafafa;
+    }
+
+    .test-title {
+        color: #0f2f67;
+        font-weight: bold;
+    }
+
+    .sub-text {
+        color: #6b7280;
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    /* BADGES */
+
+    .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .active-badge {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .inactive-badge {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .open-badge {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .closed-badge {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+    /* RESULTS BUTTON */
+
+    .btn {
+        display: inline-block;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .results-btn {
+        background: #0f2f67;
+        color: white;
+    }
+
+    .results-btn:hover {
+        background: #1d4ed8;
+    }
+
+    /* EMPTY STATE */
+
+    .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        color: #6b7280;
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: #374151;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1050px) {
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 850px) {
+        .content {
+            padding: 22px 16px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .content {
+            padding: 15px;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .table-card {
+            padding: 17px;
+        }
+
+        .page-header h1 {
+            font-size: 23px;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>
+        Manage Online Tests
+    </h1>
+
+    <p>
+        Monitor recruiter-created aptitude and technical
+        tests across jobs and companies.
+    </p>
+
+</div>
+
+
+<!-- SUMMARY CARDS -->
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+            Total Tests
+        </div>
+
+        <div class="summary-value">
+            {{ total_tests }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+            Active Tests
+        </div>
+
+        <div class="summary-value">
+            {{ active_tests }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+            Total Assignments
+        </div>
+
+        <div class="summary-value">
+            {{ total_assignments }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+            Submitted Attempts
+        </div>
+
+        <div class="summary-value">
+            {{ total_submitted }}
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ALL ONLINE TESTS -->
+
+<div class="table-card">
+
+    <h2>
+        All Online Tests
+    </h2>
+
+    <p class="section-description">
+        College administrators can monitor tests created
+        by recruiters and review student results.
+    </p>
+
+
+    {% if tests %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Test</th>
+                        <th>Recruiter</th>
+                        <th>Job</th>
+                        <th>Type</th>
+                        <th>Questions</th>
+                        <th>Assigned</th>
+                        <th>Duration</th>
+                        <th>Pass %</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Results</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for test in tests %}
+
+                        <tr>
+
+                            <!-- NUMBER -->
+
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+
+                            <!-- TEST -->
+
+                            <td>
+
+                                <div class="test-title">
+                                    {{ test.title }}
+                                </div>
+
+                                <div class="sub-text">
+                                    Created:
+                                    {{ test.created_at|date:"d M Y" }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- RECRUITER -->
+
+                            <td>
+
+                                {{ test.recruiter.company_name }}
+
+                                <div class="sub-text">
+                                    {{ test.recruiter.email }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- JOB -->
+
+                            <td>
+
+                                {{ test.job.job_title }}
+
+                                <div class="sub-text">
+                                    {{ test.job.company_name }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- TYPE -->
+
+                            <td>
+                                {{ test.test_type }}
+                            </td>
+
+
+                            <!-- QUESTIONS -->
+
+                            <td>
+                                {{ test.questions.count }}
+                            </td>
+
+
+                            <!-- ASSIGNED -->
+
+                            <td>
+                                {{ test.assignments.count }}
+                            </td>
+
+
+                            <!-- DURATION -->
+
+                            <td>
+                                {{ test.duration_minutes }} min
+                            </td>
+
+
+                            <!-- PASSING -->
+
+                            <td>
+                                {{ test.passing_percentage }}%
+                            </td>
+
+
+                            <!-- DEADLINE -->
+
+                            <td>
+
+                                {% if test.test_deadline %}
+
+                                    {{ test.test_deadline|date:"d M Y, h:i A" }}
+
+                                {% else %}
+
+                                    No Deadline
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                {% if test.is_active %}
+
+                                    {% if test.is_test_open %}
+
+                                        <span class="badge open-badge">
+                                            Open
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge closed-badge">
+                                            Closed
+                                        </span>
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    <span class="badge inactive-badge">
+                                        Inactive
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- RESULTS -->
+
+                            <td>
+
+                                <a
+                                    href="{% url 'admin_test_results' test.id %}"
+                                    class="btn results-btn"
+                                >
+                                    View Results
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <h3>
+                No Online Tests Found
+            </h3>
+
+            <p>
+                Recruiter-created online tests will
+                appear here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

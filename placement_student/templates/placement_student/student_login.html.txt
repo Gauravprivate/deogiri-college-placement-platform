@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Login</title>
+</head>
+<body>
+
+    <h1>Smart College Placement Platform</h1>
+    <h2>Student Login</h2>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Enter your PRN:</label>
+        <input type="text" name="prn" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Result | Student Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #0f2f67;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1d4ed8;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 7px;
+            color: #0f2f67;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .result-card {
+            background: white;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .result-status {
+            text-align: center;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .result-status h2 {
+            margin: 12px 0 6px;
+            font-size: 28px;
+        }
+
+        .result-status p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .result-icon {
+            width: 75px;
+            height: 75px;
+            margin: auto;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            font-weight: bold;
+        }
+
+        .passed-icon {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .failed-icon {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .passed-text {
+            color: #166534;
+        }
+
+        .failed-text {
+            color: #b91c1c;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .score-card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 18px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .score-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .score-value {
+            color: #0f2f67;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .details {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+
+        .details h3 {
+            margin: 0 0 17px;
+            color: #0f2f67;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 15px;
+            padding: 11px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        .detail-value {
+            color: #1f2937;
+            overflow-wrap: anywhere;
+        }
+
+        .message-box {
+            margin-top: 23px;
+            padding: 15px;
+            border-radius: 7px;
+            line-height: 1.6;
+        }
+
+        .passed-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .failed-message {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .primary-btn {
+            background: #0f2f67;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .secondary-btn:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 900px) {
+            .score-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 3px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 15px;
+            }
+
+            .result-card {
+                padding: 20px;
+            }
+
+            .score-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <h2>Student Portal</h2>
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'my_profile' %}">
+                My Profile
+            </a>
+
+            <a href="{% url 'available_jobs' %}">
+                Available Jobs
+            </a>
+
+            <a href="{% url 'my_applications' %}">
+                My Applications
+            </a>
+
+            <a href="{% url 'student_interviews' %}">
+                Interviews
+            </a>
+
+            <a href="{% url 'student_tests' %}" class="active">
+                Online Tests
+            </a>
+
+            <a href="{% url 'resume' %}">
+                Resume
+            </a>
+
+            <a href="{% url 'student_notifications' %}">
+                Notifications
+            </a>
+
+            <a href="{% url 'logout_student' %}">
+                Logout
+            </a>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="page-header">
+                <h1>Online Test Result</h1>
+
+                <p>
+                    Your submitted test result and score are shown below.
+                </p>
+            </div>
+
+            <div class="result-card">
+
+                <div class="result-status">
+
+                    {% if attempt.passed %}
+
+                        <div class="result-icon passed-icon">
+                            ✓
+                        </div>
+
+                        <h2 class="passed-text">
+                            Passed
+                        </h2>
+
+                        <p>
+                            You achieved the required passing percentage.
+                        </p>
+
+                    {% else %}
+
+                        <div class="result-icon failed-icon">
+                            ×
+                        </div>
+
+                        <h2 class="failed-text">
+                            Not Passed
+                        </h2>
+
+                        <p>
+                            Your score is below the required passing percentage.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="score-grid">
+
+                    <div class="score-card">
+                        <div class="score-label">
+                            Your Score
+                        </div>
+
+                        <div class="score-value">
+                            {{ attempt.score }}
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-label">
+                            Total Marks
+                        </div>
+
+                        <div class="score-value">
+                            {{ attempt.total_marks }}
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-label">
+                            Percentage
+                        </div>
+
+                        <div class="score-value">
+                            {{ attempt.percentage }}%
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-label">
+                            Required
+                        </div>
+
+                        <div class="score-value">
+                            {{ attempt.assignment.test.passing_percentage }}%
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="details">
+
+                    <h3>Test Details</h3>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            Test
+                        </div>
+
+                        <div class="detail-value">
+                            {{ attempt.assignment.test.title }}
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            Test Type
+                        </div>
+
+                        <div class="detail-value">
+                            {{ attempt.assignment.test.test_type }}
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            Job
+                        </div>
+
+                        <div class="detail-value">
+                            {{ attempt.assignment.test.job.job_title }}
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            Company
+                        </div>
+
+                        <div class="detail-value">
+                            {{ attempt.assignment.test.job.company_name }}
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            Started At
+                        </div>
+
+                        <div class="detail-value">
+                            {{ attempt.started_at|date:"d M Y, h:i A" }}
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            Submitted At
+                        </div>
+
+                        <div class="detail-value">
+                            {% if attempt.submitted_at %}
+                                {{ attempt.submitted_at|date:"d M Y, h:i A" }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+                {% if attempt.passed %}
+
+                    <div class="message-box passed-message">
+                        <strong>Result:</strong>
+                        You have passed this online test. Your result
+                        is available to the recruiter for the next
+                        stage of the recruitment process.
+                    </div>
+
+                {% else %}
+
+                    <div class="message-box failed-message">
+                        <strong>Result:</strong>
+                        You did not reach the required passing percentage
+                        for this test. Your submitted result remains
+                        available in your Online Tests history.
+                    </div>
+
+                {% endif %}
+
+                <div class="actions">
+
+                    <a
+                        href="{% url 'student_tests' %}"
+                        class="btn primary-btn"
+                    >
+                        Back to Online Tests
+                    </a>
+
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="btn secondary-btn"
+                    >
+                        Student Dashboard
+                    </a>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

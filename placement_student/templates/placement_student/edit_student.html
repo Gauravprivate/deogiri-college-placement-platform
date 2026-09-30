@@ -1,0 +1,392 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}
+Edit Student | College Placement Portal
+{% endblock %}
+
+{% block students_active %}
+active
+{% endblock %}
+
+{% block extra_css %}
+
+.edit-student-container {
+    max-width: 900px;
+    margin: 35px auto;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    margin-bottom: 8px;
+    font-size: 28px;
+    color: #123c73;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 22px;
+    font-size: 14px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.form-group input[readonly] {
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+.password-section {
+    margin-top: 28px;
+    padding: 20px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.password-section h3 {
+    color: #123c73;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.password-section p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.password-help {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.buttons {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+}
+
+.buttons button,
+.cancel {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.buttons button {
+    background: #123c73;
+    color: white;
+}
+
+.buttons button:hover {
+    background: #0f3260;
+}
+
+.cancel {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.cancel:hover {
+    background: #d1d5db;
+}
+
+@media (max-width: 700px) {
+
+    .edit-student-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .password-section {
+        padding: 16px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button,
+    .cancel {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="edit-student-container">
+
+    <div class="card">
+
+        <h1 class="title">
+            Edit Student
+        </h1>
+
+        <p class="subtitle">
+            Update student information or reset the student's
+            placement portal login password.
+        </p>
+
+
+        {% if error %}
+
+            <div class="error-message">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{% url 'edit_student' student.id %}"
+        >
+
+            {% csrf_token %}
+
+
+            <div class="form-grid">
+
+                <!-- PRN -->
+                <div class="form-group">
+
+                    <label for="prn">
+                        PRN
+                    </label>
+
+                    <input
+                        type="text"
+                        id="prn"
+                        value="{{ student.prn }}"
+                        readonly
+                    >
+
+                </div>
+
+
+                <!-- Student Name -->
+                <div class="form-group">
+
+                    <label for="name">
+                        Student Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ student.name }}"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ student.email }}"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ student.phone }}"
+                        autocomplete="tel"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Course -->
+                <div class="form-group">
+
+                    <label for="course">
+                        Course
+                    </label>
+
+                    <input
+                        type="text"
+                        id="course"
+                        name="course"
+                        value="{{ student.course }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Department -->
+                <div class="form-group">
+
+                    <label for="department">
+                        Department
+                    </label>
+
+                    <input
+                        type="text"
+                        id="department"
+                        name="department"
+                        value="{{ student.department }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Password Reset Section -->
+            <div class="password-section">
+
+                <h3>
+                    Reset Student Password
+                </h3>
+
+                <p>
+                    Enter a new password only if you want to reset
+                    this student's login password.
+                </p>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter new password"
+                        minlength="8"
+                        autocomplete="new-password"
+                    >
+
+                    <div class="password-help">
+                        Minimum 8 characters. Leave this field blank
+                        to keep the student's current password unchanged.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="buttons">
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
+                <a
+                    href="{% url 'manage_students' %}"
+                    class="cancel"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

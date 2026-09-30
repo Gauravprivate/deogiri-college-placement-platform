@@ -1,0 +1,640 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Test Assignments | Recruiter Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #0f2f67;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1d4ed8;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 7px;
+            color: #0f2f67;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .primary-btn {
+            background: #0f2f67;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .secondary-btn:hover {
+            background: #d1d5db;
+        }
+
+        .results-btn {
+            background: #15803d;
+            color: white;
+        }
+
+        .results-btn:hover {
+            background: #166534;
+        }
+
+        .remove-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .remove-btn:hover {
+            background: #fecaca;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 18px;
+            border-radius: 9px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .summary-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .summary-value {
+            color: #0f2f67;
+            font-size: 20px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .table-card {
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-card h2 {
+            margin: 0 0 8px;
+            color: #0f2f67;
+            font-size: 21px;
+        }
+
+        .section-description {
+            margin: 0 0 20px;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th,
+        td {
+            padding: 13px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .not-started {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .submitted {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+            color: #374151;
+        }
+
+        .empty-state p {
+            margin: 0 0 20px;
+        }
+
+        @media (max-width: 1000px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 3px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .page-header {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding: 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-card {
+                padding: 17px;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <h2>Recruiter Portal</h2>
+
+            <a href="{% url 'recruiter_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'post_job' %}">
+                Post New Job
+            </a>
+
+            <a href="{% url 'my_jobs' %}">
+                My Posted Jobs
+            </a>
+
+            <a href="{% url 'recruiter_interviews' %}">
+                Interviews
+            </a>
+
+            <a href="{% url 'recruiter_tests' %}" class="active">
+                Online Tests
+            </a>
+
+            <a href="{% url 'recruiter_logout' %}">
+                Logout
+            </a>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>Test Assignments</h1>
+
+                    <p>
+                        <strong>{{ online_test.title }}</strong>
+                        <br>
+                        {{ online_test.job.job_title }} -
+                        {{ online_test.job.company_name }}
+                    </p>
+
+                </div>
+
+                <div class="header-actions">
+
+                    <a
+                        href="{% url 'assign_online_test' online_test.id %}"
+                        class="btn primary-btn"
+                    >
+                        + Assign Students
+                    </a>
+
+                    <a
+                        href="{% url 'recruiter_test_results' online_test.id %}"
+                        class="btn results-btn"
+                    >
+                        View Results
+                    </a>
+
+                    <a
+                        href="{% url 'recruiter_tests' %}"
+                        class="btn secondary-btn"
+                    >
+                        Back to Tests
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Total Assigned
+                    </div>
+
+                    <div class="summary-value">
+                        {{ assignments|length }}
+                    </div>
+
+                </div>
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Test Type
+                    </div>
+
+                    <div class="summary-value">
+                        {{ online_test.test_type }}
+                    </div>
+
+                </div>
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Duration
+                    </div>
+
+                    <div class="summary-value">
+                        {{ online_test.duration_minutes }} min
+                    </div>
+
+                </div>
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Passing Percentage
+                    </div>
+
+                    <div class="summary-value">
+                        {{ online_test.passing_percentage }}%
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <h2>Assigned Students</h2>
+
+                <p class="section-description">
+                    Students listed here have received this online test.
+                    Their attempt status will update when they start or
+                    submit the test.
+                </p>
+
+                {% if assignments %}
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th>PRN</th>
+                                    <th>Course</th>
+                                    <th>Assigned On</th>
+                                    <th>Attempt Status</th>
+                                    <th>Score</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for assignment in assignments %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+
+                                        <td>
+                                            <span class="student-name">
+                                                {{ assignment.application.student.name }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {{ assignment.application.student.prn }}
+                                        </td>
+
+                                        <td>
+                                            {{ assignment.application.student.course }}
+                                        </td>
+
+                                        <td>
+                                            {{ assignment.assigned_at|date:"d M Y, h:i A" }}
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt %}
+
+                                                {% if assignment.attempt.status == "Submitted" %}
+
+                                                    <span class="status-badge submitted">
+                                                        Submitted
+                                                    </span>
+
+                                                {% else %}
+
+                                                    <span class="status-badge in-progress">
+                                                        In Progress
+                                                    </span>
+
+                                                {% endif %}
+
+                                            {% else %}
+
+                                                <span class="status-badge not-started">
+                                                    Not Started
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if assignment.attempt and assignment.attempt.status == "Submitted" %}
+
+                                                {{ assignment.attempt.score }}
+                                                /
+                                                {{ assignment.attempt.total_marks }}
+
+                                                <br>
+
+                                                <small>
+                                                    {{ assignment.attempt.percentage }}%
+                                                </small>
+
+                                            {% else %}
+
+                                                —
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            <div class="actions">
+
+                                                {% if not assignment.attempt %}
+
+                                                    <form
+                                                        method="post"
+                                                        action="{% url 'remove_test_assignment' assignment.id %}"
+                                                        onsubmit="return confirm('Remove this test assignment from the student?');"
+                                                    >
+
+                                                        {% csrf_token %}
+
+                                                        <button
+                                                            type="submit"
+                                                            class="btn remove-btn"
+                                                        >
+                                                            Remove
+                                                        </button>
+
+                                                    </form>
+
+                                                {% else %}
+
+                                                    <span style="color:#6b7280; font-size:12px;">
+                                                        Attempt created
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+
+                        <h3>No Students Assigned Yet</h3>
+
+                        <p>
+                            Assign this test to applicants before
+                            students can attempt it.
+                        </p>
+
+                        <a
+                            href="{% url 'assign_online_test' online_test.id %}"
+                            class="btn primary-btn"
+                        >
+                            Assign Students
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,675 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}Add New Job | Deogiri College Placement{% endblock %}
+
+{% block jobs_active %}active{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 35px auto;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .top-bar h2 {
+        color: #0b3d91;
+        font-size: 28px;
+    }
+
+    .back-button {
+        text-decoration: none;
+        background: #6c757d;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .back-button:hover {
+        background: #545b62;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .info-box {
+        background: #eef5ff;
+        border-left: 5px solid #0b3d91;
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 5px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .section-title {
+        color: #0b3d91;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 30px 0 18px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #dfe5ee;
+    }
+
+    .section-title.first-section {
+        margin-top: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccd3dd;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #0b3d91;
+        box-shadow: 0 0 0 3px rgba(11, 61, 145, 0.08);
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .form-group input[readonly] {
+        background: #f1f3f5;
+        cursor: not-allowed;
+    }
+
+    .form-help {
+        display: block;
+        margin-top: 7px;
+        color: #6c757d;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .required {
+        color: red;
+    }
+
+    /* SMART MATCHING */
+
+    .smart-matching-box {
+        background: #f7faff;
+        border: 1px solid #d7e5fb;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .smart-matching-box .form-group {
+        margin-bottom: 0;
+    }
+
+    .smart-matching-box label {
+        color: #0b3d91;
+    }
+
+    /* APPLICATION DEADLINE */
+
+    .deadline-box {
+        background: #fffaf0;
+        border: 1px solid #f0dca8;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .deadline-box .form-group {
+        margin-bottom: 0;
+    }
+
+    .deadline-box label {
+        color: #7a5b16;
+    }
+
+    .deadline-info {
+        margin-top: 12px;
+        background: #fff4d6;
+        border-left: 4px solid #e0a800;
+        border-radius: 5px;
+        padding: 12px 14px;
+        color: #755514;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    /* BUTTONS */
+
+    .button-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .submit-button {
+        background: #0b3d91;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .submit-button:hover {
+        background: #082f70;
+    }
+
+    .submit-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+    }
+
+    .cancel-button {
+        background: #6c757d;
+        color: white;
+        text-decoration: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    .cancel-button:hover {
+        background: #545b62;
+    }
+
+    .warning {
+        background: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+        .container {
+            width: 94%;
+            margin: 25px auto;
+        }
+
+        .top-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .top-bar h2 {
+            font-size: 23px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .button-row {
+            flex-direction: column;
+        }
+
+        .submit-button,
+        .cancel-button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <h2>Add New Job</h2>
+
+        <a href="{% url 'manage_jobs' %}" class="back-button">
+            ← Back to Jobs
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="info-box">
+
+            <strong>Admin Job Posting</strong><br>
+
+            Select an approved recruiter/company below.
+            The company name will automatically be filled
+            from the selected recruiter.
+
+        </div>
+
+
+        {% if not recruiters %}
+
+            <div class="warning">
+
+                <strong>No Approved Recruiters Available.</strong><br>
+
+                Please approve at least one recruiter from
+                <strong>Manage Recruiters</strong>
+                before adding a job.
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- COMPANY & JOB -->
+
+            <div class="section-title first-section">
+                Company & Job Information
+            </div>
+
+
+            <!-- RECRUITER -->
+
+            <div class="form-group">
+
+                <label for="recruiter">
+                    Recruiter / Company
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    name="recruiter"
+                    id="recruiter"
+                    onchange="setCompanyName()"
+                    required
+                >
+
+                    <option value="">
+                        -- Select Recruiter / Company --
+                    </option>
+
+                    {% for recruiter in recruiters %}
+
+                        <option
+                            value="{{ recruiter.id }}"
+                            data-company="{{ recruiter.company_name }}"
+                        >
+                            {{ recruiter.company_name }} - {{ recruiter.recruiter_name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- COMPANY NAME -->
+
+            <div class="form-group">
+
+                <label for="company_name">
+                    Company Name
+                </label>
+
+                <input
+                    type="text"
+                    id="company_name"
+                    name="company_name"
+                    placeholder="Select recruiter first"
+                    readonly
+                >
+
+            </div>
+
+
+            <!-- JOB TITLE -->
+
+            <div class="form-group">
+
+                <label for="job_title">
+                    Job Title
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="job_title"
+                    name="job_title"
+                    placeholder="Example: Python Developer"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Job Description
+                    <span class="required">*</span>
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter job responsibilities and description..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- ELIGIBILITY -->
+
+            <div class="section-title">
+                🎯 Eligibility Requirements
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="eligible_courses">
+                    Eligible Courses
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="eligible_courses"
+                    name="eligible_courses"
+                    placeholder="Example: BCS, BCA, MCS, MCA"
+                    required
+                >
+
+                <small class="form-help">
+                    Enter courses separated by commas.
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="eligible_departments">
+                    Eligible Departments
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="eligible_departments"
+                    name="eligible_departments"
+                    placeholder="Example: Computer Science, IT"
+                    required
+                >
+
+                <small class="form-help">
+                    Enter departments separated by commas.
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="graduation_year">
+                    Graduation Year
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    id="graduation_year"
+                    name="graduation_year"
+                    required
+                >
+
+                    <option value="">
+                        -- Select Graduation Year --
+                    </option>
+
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SMART MATCHING -->
+
+            <div class="section-title">
+                🤖 Smart Job Matching
+            </div>
+
+
+            <div class="smart-matching-box">
+
+                <div class="form-group">
+
+                    <label for="required_skills">
+                        Required Skills
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="required_skills"
+                        name="required_skills"
+                        placeholder="Example: Python, Django, MySQL, HTML, CSS"
+                        maxlength="500"
+                        required
+                    >
+
+                    <small class="form-help">
+                        Enter technical skills separated by commas.
+                        These skills will be compared with student skills
+                        to calculate the Smart Job Match percentage.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION DEADLINE -->
+
+            <div class="section-title">
+                ⏰ Application Deadline
+            </div>
+
+
+            <div class="deadline-box">
+
+                <div class="form-group">
+
+                    <label for="application_deadline">
+                        Last Date to Apply
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        id="application_deadline"
+                        name="application_deadline"
+                        required
+                    >
+
+                    <div class="deadline-info">
+
+                        <strong>Deadline Control:</strong><br>
+
+                        Students can apply until this date.
+                        After the deadline passes, the job will
+                        automatically show as
+                        <strong>Applications Closed</strong>
+                        and new applications will not be accepted.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- JOB DETAILS -->
+
+            <div class="section-title">
+                💼 Job Details
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label for="location">
+                    Location
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="Example: Pune"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SALARY -->
+
+            <div class="form-group">
+
+                <label for="salary">
+                    Salary
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="salary"
+                    name="salary"
+                    placeholder="Example: 4 - 6 LPA"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                    {% if not recruiters %}disabled{% endif %}
+                >
+                    Add Job
+                </button>
+
+                <a
+                    href="{% url 'manage_jobs' %}"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    function setCompanyName() {
+
+        const recruiterSelect =
+            document.getElementById("recruiter");
+
+        const companyInput =
+            document.getElementById("company_name");
+
+        const selectedOption =
+            recruiterSelect.options[
+                recruiterSelect.selectedIndex
+            ];
+
+
+        if (selectedOption.value) {
+
+            companyInput.value =
+                selectedOption.getAttribute("data-company");
+
+        } else {
+
+            companyInput.value = "";
+
+            companyInput.placeholder =
+                "Select recruiter first";
+        }
+    }
+
+</script>
+
+{% endblock %}

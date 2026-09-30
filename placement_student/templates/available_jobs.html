@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Jobs</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #0d6efd;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .job-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .job-card h2 {
+            margin-top: 0;
+            color: #0d6efd;
+        }
+
+        .job-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .job-info {
+            margin: 10px 0;
+        }
+
+        .job-info strong {
+            color: #222;
+        }
+
+        .apply-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #0d6efd;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .apply-btn:hover {
+            background: #084298;
+        }
+
+        .no-jobs {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Available Jobs</h1>
+        <p>Explore current placement opportunities</p>
+    </div>
+
+    <div class="container">
+
+        {% if jobs %}
+
+            {% for job in jobs %}
+
+                <div class="job-card">
+
+                    <h2>{{ job.job_title }}</h2>
+
+                    <div class="job-info">
+                        <strong>Company:</strong>
+                        {{ job.company_name }}
+                    </div>
+
+                    <div class="job-info">
+                        <strong>Location:</strong>
+                        {{ job.location }}
+                    </div>
+
+                    <div class="job-info">
+                        <strong>Salary:</strong>
+                        {{ job.salary }}
+                    </div>
+
+                    <div class="job-info">
+                        <strong>Eligibility:</strong>
+                        {{ job.eligibility }}
+                    </div>
+
+                    <p>
+                        <strong>Job Description:</strong><br>
+                        {{ job.description }}
+                    </p>
+
+                    <a href="#" class="apply-btn">
+                        Apply Now
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-jobs">
+                <h2>No jobs available</h2>
+                <p>There are currently no placement opportunities.</p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

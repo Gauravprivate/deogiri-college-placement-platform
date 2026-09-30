@@ -1,0 +1,849 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}Manage Feedback | College Admin{% endblock %}
+
+{% block feedback_active %}active{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE HEADER
+    ========================= */
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-header h1 {
+        margin: 0 0 8px;
+        color: #1e3a8a;
+        font-size: 28px;
+    }
+
+    .page-header p {
+        margin: 0;
+        color: #6b7280;
+    }
+
+
+    /* =========================
+       SUMMARY CARDS
+    ========================= */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 9px;
+        padding: 18px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    .summary-card .label {
+        color: #6b7280;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .summary-card .value {
+        color: #1e3a8a;
+        font-size: 27px;
+        font-weight: bold;
+    }
+
+
+    /* =========================
+       FILTER CARD
+    ========================= */
+
+    .filter-card {
+        background: white;
+        padding: 20px;
+        border-radius: 9px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        margin-bottom: 25px;
+    }
+
+    .filter-card h2 {
+        margin: 0 0 17px;
+        color: #1e3a8a;
+        font-size: 19px;
+    }
+
+    .filter-form {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr auto auto;
+        gap: 12px;
+        align-items: end;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+
+    .filter-btn,
+    .reset-btn {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .filter-btn {
+        background: #1e3a8a;
+        color: white;
+    }
+
+    .filter-btn:hover {
+        background: #2563eb;
+    }
+
+    .reset-btn {
+        background: #e5e7eb;
+        color: #1f2937;
+    }
+
+
+    /* =========================
+       TABLE CARD
+    ========================= */
+
+    .table-card {
+        background: white;
+        border-radius: 9px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    .table-card h2 {
+        margin: 0 0 18px;
+        color: #1e3a8a;
+        font-size: 20px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1050px;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        background: #eff6ff;
+        color: #1e3a8a;
+        font-size: 13px;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       USER TYPE
+    ========================= */
+
+    .user-type {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .student-type {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .recruiter-type {
+        background: #ede9fe;
+        color: #6d28d9;
+    }
+
+
+    /* =========================
+       RATING
+    ========================= */
+
+    .rating {
+        color: #b45309;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .reviewed {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+
+    /* =========================
+       FEEDBACK MESSAGE
+    ========================= */
+
+    .feedback-message {
+        max-width: 300px;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================
+       ACTIONS
+    ========================= */
+
+    .action-form {
+        display: inline-block;
+        margin: 2px;
+    }
+
+    .action-btn {
+        border: none;
+        padding: 7px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .review-btn {
+        background: #16a34a;
+        color: white;
+    }
+
+    .pending-btn {
+        background: #d97706;
+        color: white;
+    }
+
+    .delete-btn {
+        background: #dc2626;
+        color: white;
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty-state {
+        text-align: center;
+        color: #6b7280;
+        padding: 35px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1200px) {
+
+        .summary-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .filter-form {
+            grid-template-columns: 1fr 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 768px) {
+
+        .summary-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+
+        .page-header h1 {
+            font-size: 23px;
+        }
+
+    }
+
+
+    @media (max-width: 480px) {
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>Manage Feedback</h1>
+
+    <p>
+        Review feedback submitted by students and recruiters.
+    </p>
+
+</div>
+
+
+<!-- =========================
+     SUMMARY
+========================== -->
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <div class="label">
+            Total Feedback
+        </div>
+
+        <div class="value">
+            {{ total_feedbacks }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Student Feedback
+        </div>
+
+        <div class="value">
+            {{ student_feedback_count }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Recruiter Feedback
+        </div>
+
+        <div class="value">
+            {{ recruiter_feedback_count }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Pending Review
+        </div>
+
+        <div class="value">
+            {{ pending_review_count }}
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Average Rating
+        </div>
+
+        <div class="value">
+            {{ average_rating }}/5
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SEARCH & FILTER
+========================== -->
+
+<section class="filter-card">
+
+    <h2>
+        Search & Filter
+    </h2>
+
+
+    <form method="GET" class="filter-form">
+
+        <div class="form-group">
+
+            <label for="search">
+                Search
+            </label>
+
+            <input
+                type="text"
+                name="search"
+                id="search"
+                value="{{ search_query }}"
+                placeholder="Name, PRN, company, recruiter or feedback..."
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="user_type">
+                User Type
+            </label>
+
+            <select name="user_type" id="user_type">
+
+                <option value="">
+                    All Users
+                </option>
+
+                <option
+                    value="Student"
+                    {% if selected_user_type == "Student" %}selected{% endif %}
+                >
+                    Student
+                </option>
+
+                <option
+                    value="Recruiter"
+                    {% if selected_user_type == "Recruiter" %}selected{% endif %}
+                >
+                    Recruiter
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="rating">
+                Rating
+            </label>
+
+            <select name="rating" id="rating">
+
+                <option value="">
+                    All Ratings
+                </option>
+
+                <option
+                    value="5"
+                    {% if selected_rating == "5" %}selected{% endif %}
+                >
+                    5 Stars
+                </option>
+
+                <option
+                    value="4"
+                    {% if selected_rating == "4" %}selected{% endif %}
+                >
+                    4 Stars
+                </option>
+
+                <option
+                    value="3"
+                    {% if selected_rating == "3" %}selected{% endif %}
+                >
+                    3 Stars
+                </option>
+
+                <option
+                    value="2"
+                    {% if selected_rating == "2" %}selected{% endif %}
+                >
+                    2 Stars
+                </option>
+
+                <option
+                    value="1"
+                    {% if selected_rating == "1" %}selected{% endif %}
+                >
+                    1 Star
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="filter-btn"
+        >
+            Apply Filters
+        </button>
+
+
+        <a
+            href="{% url 'manage_feedback' %}"
+            class="reset-btn"
+        >
+            Reset
+        </a>
+
+    </form>
+
+</section>
+
+
+<!-- =========================
+     FEEDBACK TABLE
+========================== -->
+
+<section class="table-card">
+
+    <h2>
+        Feedback Records
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>User Type</th>
+                    <th>Name / Company</th>
+                    <th>Details</th>
+                    <th>Rating</th>
+                    <th>Feedback</th>
+                    <th>Submitted</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for feedback in feedbacks %}
+
+                    <tr>
+
+                        <!-- USER TYPE -->
+
+                        <td>
+
+                            {% if feedback.user_type == "Student" %}
+
+                                <span class="user-type student-type">
+                                    Student
+                                </span>
+
+                            {% else %}
+
+                                <span class="user-type recruiter-type">
+                                    Recruiter
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- NAME / COMPANY -->
+
+                        <td>
+
+                            {% if feedback.user_type == "Student" %}
+
+                                {% if feedback.student %}
+
+                                    <strong>
+                                        {{ feedback.student.name }}
+                                    </strong>
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            {% else %}
+
+                                {% if feedback.recruiter %}
+
+                                    <strong>
+                                        {{ feedback.recruiter.company_name }}
+                                    </strong>
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- DETAILS -->
+
+                        <td>
+
+                            {% if feedback.user_type == "Student" %}
+
+                                {% if feedback.student %}
+
+                                    PRN: {{ feedback.student.prn }}
+
+                                    <br>
+
+                                    {{ feedback.student.course }}
+                                    -
+                                    {{ feedback.student.department }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            {% else %}
+
+                                {% if feedback.recruiter %}
+
+                                    {{ feedback.recruiter.recruiter_name }}
+
+                                    <br>
+
+                                    {{ feedback.recruiter.email }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- RATING -->
+
+                        <td class="rating">
+
+                            {{ feedback.rating }}/5 ★
+
+                        </td>
+
+
+                        <!-- FEEDBACK -->
+
+                        <td>
+
+                            <div class="feedback-message">
+
+                                {{ feedback.feedback_text }}
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- SUBMITTED -->
+
+                        <td>
+
+                            {{ feedback.submitted_at|date:"d M Y" }}
+
+                            <br>
+
+                            {{ feedback.submitted_at|date:"h:i A" }}
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            {% if feedback.is_reviewed %}
+
+                                <span class="status reviewed">
+                                    Reviewed
+                                </span>
+
+                            {% else %}
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTIONS -->
+
+                        <td>
+
+                            {% if feedback.is_reviewed %}
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'mark_feedback_pending' feedback.id %}"
+                                    class="action-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn pending-btn"
+                                    >
+                                        Mark Pending
+                                    </button>
+
+                                </form>
+
+                            {% else %}
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'mark_feedback_reviewed' feedback.id %}"
+                                    class="action-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn review-btn"
+                                    >
+                                        Mark Reviewed
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+
+                            <form
+                                method="POST"
+                                action="{% url 'delete_feedback' feedback.id %}"
+                                class="action-form"
+                                onsubmit="return confirm('Are you sure you want to delete this feedback?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="action-btn delete-btn"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+
+                {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="empty-state"
+                        >
+                            No feedback records found.
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,735 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Deogiri College Placement Platform</title>
+
+    <style>
+        :root {
+            --purple: #4a1a6b;
+            --magenta: #c8107c;
+            --orange: #f26522;
+            --red-orange: #e8381f;
+
+            --light-bg: #fff7fb;
+            --text-dark: #2d1738;
+            --text-muted: #6f6175;
+            --border-light: #eadde8;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+        header {
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--magenta)
+            );
+            color: var(--white);
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(74, 26, 107, 0.20);
+        }
+
+        .logo-section h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+
+        .logo-section p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           HERO SECTION
+        ====================================================== */
+        .hero {
+            padding: 65px 7%;
+            text-align: center;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(74,26,107,0.08),
+                    rgba(200,16,124,0.07),
+                    rgba(242,101,34,0.08)
+                );
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: var(--purple);
+        }
+
+        .hero h2 span {
+            color: var(--magenta);
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin: auto;
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* =====================================================
+           LOGIN CARDS
+        ====================================================== */
+        .login-section {
+            padding: 50px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+            color: var(--purple);
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+        }
+
+        .login-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .login-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px 25px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 8px 25px rgba(74, 26, 107, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 14px 30px rgba(74, 26, 107, 0.16);
+        }
+
+        .login-icon {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .student-icon {
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--magenta)
+            );
+        }
+
+        .recruiter-icon {
+            background: linear-gradient(
+                135deg,
+                var(--magenta),
+                var(--orange)
+            );
+        }
+
+        .admin-icon {
+            background: linear-gradient(
+                135deg,
+                var(--orange),
+                var(--red-orange)
+            );
+        }
+
+        .login-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--purple);
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 45px;
+            margin-bottom: 20px;
+        }
+
+        .login-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 25px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .student-btn {
+            background: var(--purple);
+        }
+
+        .student-btn:hover {
+            background: #35134f;
+        }
+
+        .recruiter-btn {
+            background: var(--magenta);
+        }
+
+        .recruiter-btn:hover {
+            background: #a50d67;
+        }
+
+        .admin-btn {
+            background: var(--orange);
+        }
+
+        .admin-btn:hover {
+            background: var(--red-orange);
+        }
+
+        /* =====================================================
+           ABOUT / PLACEMENT INFORMATION
+        ====================================================== */
+        .about-section {
+            padding: 55px 7%;
+            background: var(--white);
+        }
+
+        .about-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 30px;
+            color: var(--purple);
+            margin-bottom: 18px;
+        }
+
+        .about-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .about-image {
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--magenta),
+                var(--orange)
+            );
+            min-height: 250px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+        }
+
+        .about-image h3 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* =====================================================
+           STATISTICS
+        ====================================================== */
+        .stats-section {
+            padding: 50px 7%;
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--magenta)
+            );
+            color: var(--white);
+        }
+
+        .stats-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-box {
+            padding: 20px;
+        }
+
+        .stat-box h3 {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        .stat-box p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* =====================================================
+           NOTICES
+        ====================================================== */
+        .notice-section {
+            padding: 55px 7%;
+            background: var(--light-bg);
+        }
+
+        .notice-container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .notice-card {
+            background: var(--white);
+            border-left: 5px solid var(--orange);
+            padding: 18px 22px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(74, 26, 107, 0.06);
+        }
+
+        .notice-card h3 {
+            color: var(--purple);
+            margin-bottom: 7px;
+            font-size: 18px;
+        }
+
+        .notice-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+        footer {
+            background: var(--purple);
+            color: var(--white);
+            text-align: center;
+            padding: 25px 7%;
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        footer span {
+            color: #ffb15c;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+        @media (max-width: 900px) {
+
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h2 {
+                font-size: 34px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .hero {
+                padding: 45px 6%;
+            }
+
+            .hero h2 {
+                font-size: 28px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-section,
+            .login-section,
+            .notice-section {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+    <header>
+
+        <div class="logo-section">
+            <h1>Deogiri College</h1>
+            <p>College Placement Portal</p>
+        </div>
+
+        <div class="header-badge">
+            Placement Cell
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO SECTION
+    ====================================================== -->
+    <section class="hero">
+
+        <h2>
+            Welcome to
+            <span>Deogiri College Placement Portal</span>
+        </h2>
+
+        <p>
+            A centralized platform connecting students, recruiters and
+            the college placement cell for a smooth and organized
+            placement process.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         LOGIN SECTION
+    ====================================================== -->
+    <section class="login-section">
+
+        <div class="section-title">
+
+            <h2>Portal Login</h2>
+
+            <p>
+                Select your role to continue
+            </p>
+
+        </div>
+
+
+        <div class="login-container">
+
+            <!-- STUDENT -->
+            <div class="login-card">
+
+                <div class="login-icon student-icon">
+                    🎓
+                </div>
+
+                <h3>Student</h3>
+
+                <p>
+                    Login using your PRN and access jobs,
+                    applications, profile and placement status.
+                </p>
+
+                <a href="{% url 'student_login' %}"
+                   class="login-btn student-btn">
+                    Student Login
+                </a>
+
+            </div>
+
+
+            <!-- RECRUITER -->
+            <div class="login-card">
+
+                <div class="login-icon recruiter-icon">
+                    💼
+                </div>
+
+                <h3>Recruiter</h3>
+
+                <p>
+                    Recruiters can post jobs, view applicants
+                    and manage application status.
+                </p>
+
+                <a href="{% url 'recruiter_login' %}"
+                   class="login-btn recruiter-btn">
+                    Recruiter Login
+                </a>
+
+            </div>
+
+
+            <!-- ADMIN -->
+            <div class="login-card">
+
+                <div class="login-icon admin-icon">
+                    🛡️
+                </div>
+
+                <h3>College Admin</h3>
+
+                <p>
+                    Manage students, recruiters, jobs,
+                    applications and placement activities.
+                </p>
+
+                <a href="{% url 'college_admin_login' %}"
+                   class="login-btn admin-btn">
+                    Admin Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ABOUT / PLACEMENT INFORMATION
+    ====================================================== -->
+    <section class="about-section">
+
+        <div class="about-container">
+
+            <div class="about-content">
+
+                <h2>About the Placement Cell</h2>
+
+                <p>
+                    The Deogiri College Placement Platform provides a
+                    centralized system for managing campus placement
+                    activities.
+                </p>
+
+                <p>
+                    Students can explore available opportunities,
+                    apply for suitable jobs, maintain their profiles
+                    and track their application status.
+                </p>
+
+                <p>
+                    Recruiters can post job opportunities, review
+                    applicants and update the selection process.
+                </p>
+
+            </div>
+
+
+            <div class="about-image">
+
+                <div>
+
+                    <h3>Career & Placement</h3>
+
+                    <p>
+                        Connecting students with opportunities
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+    <section class="stats-section">
+
+        <div class="stats-container">
+
+            <div class="stat-box">
+
+                <h3>100+</h3>
+
+                <p>
+                    Students
+                </p>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <h3>25+</h3>
+
+                <p>
+                    Recruiters
+                </p>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <h3>50+</h3>
+
+                <p>
+                    Job Opportunities
+                </p>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <h3>80%</h3>
+
+                <p>
+                    Placement Support
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         NOTICES
+    ====================================================== -->
+    <section class="notice-section">
+
+        <div class="section-title">
+
+            <h2>Placement Notices</h2>
+
+            <p>
+                Important placement updates and announcements
+            </p>
+
+        </div>
+
+
+        <div class="notice-container">
+
+            {% if notices %}
+
+                {% for notice in notices %}
+
+                    <div class="notice-card">
+
+                        <h3>
+                            {{ notice.title }}
+                        </h3>
+
+                        <p>
+                            {{ notice.description }}
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="notice-card">
+
+                    <h3>
+                        No Notices Available
+                    </h3>
+
+                    <p>
+                        Placement notices will appear here when
+                        they are published by the college admin.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+    <footer>
+
+        <p>
+            © 2026 Deogiri College Placement Portal.
+            All Rights Reserved.
+        </p>
+
+        <p>
+            Developed for
+            <span>Deogiri College</span>
+        </p>
+
+    </footer>
+
+</body>
+</html>

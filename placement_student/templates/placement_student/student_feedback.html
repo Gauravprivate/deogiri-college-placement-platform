@@ -1,0 +1,559 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Feedback | Deogiri College Placement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+    width: 250px;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    padding: 25px 15px;
+    flex-shrink: 0;
+}
+
+.student-box {
+    background: #f1f6ff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 25px;
+    border: 1px solid #dbe7ff;
+}
+
+.student-box h3 {
+    margin: 0 0 8px;
+    color: #0d6efd;
+    font-size: 18px;
+}
+
+.student-box p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.menu-title {
+    font-size: 12px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 20px 12px 10px;
+    letter-spacing: 0.6px;
+}
+
+.menu-item {
+    display: block;
+    text-decoration: none;
+    color: #374151;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background: #f1f6ff;
+    color: #0d6efd;
+}
+
+.menu-item.active {
+    background: #0d6efd;
+    color: white;
+    font-weight: bold;
+}
+
+.notification-link {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.notification-badge {
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    background: #dc3545;
+    color: white;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.logout-link {
+    color: #dc3545 !important;
+}
+
+.logout-link:hover {
+    background: #fff1f2 !important;
+    color: #dc3545 !important;
+}
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            color: #1e3a8a;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+            font-size: 21px;
+        }
+
+        .student-info {
+            background: #eff6ff;
+            padding: 14px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .student-info p {
+            margin: 5px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .submit-btn {
+            border: none;
+            background: #1e3a8a;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+        }
+
+        .feedback-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            font-weight: bold;
+            color: #b45309;
+        }
+
+        .date {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .feedback-text {
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .review-status {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .reviewed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 35px 10px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 900px) {
+            .feedback-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<img
+    src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+    alt="Deogiri College"
+    class="college-banner"
+>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+    <div class="student-box">
+        <h3>Student Portal</h3>
+        <p>PRN: {{ student.prn }}</p>
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="menu-item">
+        🏠 Dashboard
+    </a>
+
+    <a href="{% url 'my_profile' %}" class="menu-item">
+        👤 My Profile
+    </a>
+
+    <a href="{% url 'available_jobs' %}" class="menu-item">
+        💼 Available Jobs
+    </a>
+
+    <a href="{% url 'my_applications' %}" class="menu-item">
+        📄 My Applications
+    </a>
+
+    <a href="{% url 'student_interviews' %}" class="menu-item">
+        📅 Interviews
+    </a>
+
+    <a href="{% url 'student_tests' %}" class="menu-item">
+        📝 Online Tests
+    </a>
+
+    <a href="{% url 'student_feedback' %}" class="menu-item active">
+        ⭐ Feedback
+    </a>
+
+    <a href="{% url 'resume' %}" class="menu-item">
+        📑 Resume
+    </a>
+
+    <a href="{% url 'student_notifications' %}"
+       class="menu-item notification-link">
+
+        <span>🔔 Notifications</span>
+
+        {% if unread_notifications_count %}
+            <span class="notification-badge">
+                {{ unread_notifications_count }}
+            </span>
+        {% endif %}
+    </a>
+
+    <div class="menu-title">
+        Account
+    </div>
+
+    <a href="{% url 'logout_student' %}"
+       class="menu-item logout-link">
+        🚪 Logout
+    </a>
+
+</aside>
+    <main class="main-content">
+
+        <div class="page-header">
+            <h1>Placement Feedback</h1>
+            <p>
+                Share your experience with the college placement process.
+            </p>
+        </div>
+
+        <div class="feedback-grid">
+
+            <section class="card">
+
+                <h2>Submit Feedback</h2>
+
+                <div class="student-info">
+                    <p>
+                        <strong>Student:</strong>
+                        {{ student.name }}
+                    </p>
+
+                    <p>
+                        <strong>PRN:</strong>
+                        {{ student.prn }}
+                    </p>
+
+                    <p>
+                        <strong>Course:</strong>
+                        {{ student.course }}
+                    </p>
+                </div>
+
+                {% if success %}
+                    <div class="success-message">
+                        {{ success }}
+                    </div>
+                {% endif %}
+
+                {% if error %}
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+
+                        <label for="rating">
+                            Overall Rating
+                        </label>
+
+                        <select
+                            name="rating"
+                            id="rating"
+                            required
+                        >
+                            <option value="">
+                                Select Rating
+                            </option>
+
+                            <option value="5">
+                                ★★★★★ - Excellent
+                            </option>
+
+                            <option value="4">
+                                ★★★★☆ - Very Good
+                            </option>
+
+                            <option value="3">
+                                ★★★☆☆ - Good
+                            </option>
+
+                            <option value="2">
+                                ★★☆☆☆ - Fair
+                            </option>
+
+                            <option value="1">
+                                ★☆☆☆☆ - Poor
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="feedback_text">
+                            Your Feedback
+                        </label>
+
+                        <textarea
+                            name="feedback_text"
+                            id="feedback_text"
+                            placeholder="Tell us about your placement experience, support received, interviews, tests, job opportunities, or suggestions..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Submit Feedback
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <section class="card">
+
+                <h2>My Previous Feedback</h2>
+
+                {% for feedback in feedbacks %}
+
+                    <div class="feedback-item">
+
+                        <div class="feedback-top">
+
+                            <span class="rating">
+                                {{ feedback.rating }}/5 ★
+                            </span>
+
+                            <span class="date">
+                                {{ feedback.submitted_at|date:"d M Y, h:i A" }}
+                            </span>
+
+                        </div>
+
+                        <div class="feedback-text">
+                            {{ feedback.feedback_text }}
+                        </div>
+
+                        {% if feedback.is_reviewed %}
+
+                            <span class="review-status reviewed">
+                                Reviewed by Placement Cell
+                            </span>
+
+                        {% else %}
+
+                            <span class="review-status pending">
+                                Pending Review
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+                        You have not submitted any feedback yet.
+                    </div>
+
+                {% endfor %}
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

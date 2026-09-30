@@ -1,0 +1,2544 @@
+{% load static %}
+
+
+
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+    <meta charset="UTF-8">
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <title>Available Jobs | Deogiri College Placement Platform</title>
+
+
+
+    <style>
+
+
+
+        \* {
+
+            box-sizing: border-box;
+
+        }
+
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f7fb;
+
+            color: #24324a;
+
+        }
+
+
+
+        .college-header {
+
+            width: 100%;
+
+            background: white;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+
+        }
+
+
+
+        .college-banner {
+
+            width: 100%;
+
+            height: auto;
+
+            display: block;
+
+        }
+
+
+
+        .layout {
+
+            display: flex;
+
+            min-height: calc(100vh - 115px);
+
+        }
+
+
+
+        .sidebar {
+
+            width: 250px;
+
+            background: white;
+
+            padding: 25px 15px;
+
+            box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+
+            flex-shrink: 0;
+
+        }
+
+
+
+        .platform-title {
+
+            text-align: center;
+
+            color: #243b80;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 25px;
+
+            padding: 10px;
+
+        }
+
+
+
+        .student-info {
+
+            background: #f4f7fb;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+
+            text-align: center;
+
+        }
+
+
+
+        .student-info strong {
+
+            display: block;
+
+            color: #243b80;
+
+            font-size: 16px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+
+        .student-info span {
+
+            color: #666;
+
+            font-size: 14px;
+
+        }
+
+
+
+        .menu-item {
+    display: block;
+    padding: 12px 14px;
+    margin-bottom: 6px;
+    text-decoration: none;
+    color: #374151;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+
+
+        .menu-item:hover {
+
+            background: #eef4ff;
+
+            color: #2864d7;
+
+        }
+
+
+
+        .active {
+
+            background: #2864d7;
+
+            color: white;
+
+        }
+
+
+
+        .active:hover {
+
+            background: #1e54b5;
+
+            color: white;
+
+        }
+
+
+
+        .logout-menu {
+
+            color: #dc3545;
+
+        }
+
+
+
+        .logout-menu:hover {
+
+            background: #fff0f0;
+
+            color: #dc3545;
+
+        }
+
+
+
+        .notification-menu {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+
+        .notification-badge {
+
+            min-width: 24px;
+
+            height: 24px;
+
+            padding: 0 7px;
+
+            display: inline-flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 20px;
+
+            background: #dc3545;
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .content {
+
+            flex: 1;
+
+            padding: 30px;
+
+            min-width: 0;
+
+        }
+
+
+
+        .page-header {
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+
+            margin-bottom: 25px;
+
+            border-left: 5px solid #2864d7;
+
+        }
+
+
+
+        .page-header h1 {
+
+            margin: 0 0 10px;
+
+            color: #243b80;
+
+            font-size: 30px;
+
+        }
+
+
+
+        .page-header p {
+
+            margin: 0;
+
+            color: #666;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+        }
+
+
+
+        .message {
+
+            background: #d1e7dd;
+
+            color: #0f5132;
+
+            padding: 15px 18px;
+
+            margin-bottom: 25px;
+
+            border-radius: 8px;
+
+            border-left: 5px solid #28a745;
+
+            font-weight: 500;
+
+        }
+
+
+
+
+        .filter-card { background:white; padding:22px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.07); margin-bottom:25px; }
+        .filter-form { display:grid; grid-template-columns:2fr 1fr auto auto; gap:12px; align-items:end; }
+        .filter-group label { display:block; margin-bottom:7px; color:#243b80; font-size:13px; font-weight:bold; }
+        .filter-input { width:100%; padding:12px 14px; border:1px solid #d8dfeb; border-radius:7px; font-size:14px; outline:none; }
+        .filter-input:focus { border-color:#2864d7; }
+        .search-btn,.reset-btn { padding:12px 20px; border-radius:7px; font-weight:bold; cursor:pointer; text-decoration:none; text-align:center; font-size:14px; }
+        .search-btn { border:none; background:#2864d7; color:white; }
+        .reset-btn { background:#eef2f7; color:#24324a; border:1px solid #d8dfeb; }
+        .result-summary { margin-top:15px; color:#666; font-size:14px; }
+
+        .jobs-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+
+        .job-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+
+            border-top: 4px solid #2864d7;
+
+            display: flex;
+
+            flex-direction: column;
+
+            position: relative;
+
+        }
+
+
+
+        .job-card.closed-job {
+
+            border-top-color: #dc3545;
+
+        }
+
+
+
+        .job-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+
+        .job-title-area {
+
+            flex: 1;
+
+        }
+
+
+
+        .job-card h2 {
+
+            margin: 0 0 8px;
+
+            color: #243b80;
+
+            font-size: 22px;
+
+        }
+
+
+
+        .company-name {
+
+            color: #2864d7;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .status-badge {
+
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+
+
+        .open-badge {
+
+            background: #e8f7ee;
+
+            color: #176b3a;
+
+            border: 1px solid #b7e4c7;
+
+        }
+
+
+
+        .closed-badge {
+
+            background: #fff0f0;
+
+            color: #a52828;
+
+            border: 1px solid #f0b8b8;
+
+        }
+
+
+
+        .deadline-section {
+
+            margin-bottom: 20px;
+
+            border-radius: 9px;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .deadline-open {
+
+            background: #fffaf0;
+
+            border: 1px solid #f3dfb3;
+
+        }
+
+
+
+        .deadline-closed {
+
+            background: #fff0f0;
+
+            border: 1px solid #f0b8b8;
+
+        }
+
+
+
+        .deadline-content {
+
+            padding: 14px 16px;
+
+        }
+
+
+
+        .deadline-label {
+
+            display: block;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+
+        }
+
+
+
+        .deadline-open .deadline-label {
+
+            color: #8a6415;
+
+        }
+
+
+
+        .deadline-closed .deadline-label {
+
+            color: #a52828;
+
+        }
+
+
+
+        .deadline-date {
+
+            display: block;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            color: #24324a;
+
+        }
+
+
+
+        .deadline-note {
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+        }
+
+
+
+        .deadline-open .deadline-note {
+
+            color: #755514;
+
+        }
+
+
+
+        .deadline-closed .deadline-note {
+
+            color: #a52828;
+
+        }
+
+
+
+        .job-details {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .detail-box {
+
+            background: #f8faff;
+
+            border: 1px solid #e1e6ef;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+        }
+
+
+
+        .detail-box strong {
+
+            display: block;
+
+            color: #777;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+
+        .detail-box span {
+
+            color: #24324a;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+        }
+
+
+
+        .description {
+
+            color: #555;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .description strong {
+
+            color: #24324a;
+
+        }
+
+
+
+        .description p {
+
+            margin-bottom: 0;
+
+        }
+
+
+
+        .matching-box {
+
+            background: #f8faff;
+
+            border: 1px solid #dce6f7;
+
+            border-radius: 10px;
+
+            padding: 18px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+
+        .matching-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+
+        .matching-title {
+
+            color: #243b80;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .match-percentage {
+
+            background: #2864d7;
+
+            color: white;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+
+
+        .match-label {
+
+            color: #2864d7;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+
+        }
+
+
+
+        .progress-bar {
+
+            width: 100%;
+
+            height: 9px;
+
+            background: #e1e6ef;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 15px;
+
+        }
+
+
+
+       .progress-fill {
+    width: 100%;
+    height: 9px;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill::-webkit-progress-bar {
+    background: #e1e6ef;
+    border-radius: 20px;
+}
+
+.progress-fill::-webkit-progress-value {
+    background: #2864d7;
+    border-radius: 20px;
+}
+
+.progress-fill::-moz-progress-bar {
+    background: #2864d7;
+    border-radius: 20px;
+}
+
+
+
+        .skills-row {
+
+            margin-top: 10px;
+
+        }
+
+
+
+        .skills-row strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #666;
+
+            margin-bottom: 6px;
+
+        }
+
+
+
+        .matched-skill {
+
+            display: inline-block;
+
+            background: #e8f7ee;
+
+            color: #176b3a;
+
+            border: 1px solid #b7e4c7;
+
+            border-radius: 20px;
+
+            padding: 5px 10px;
+
+            margin: 3px 4px 3px 0;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .missing-skill {
+
+            display: inline-block;
+
+            background: #fff0f0;
+
+            color: #a52828;
+
+            border: 1px solid #f0b8b8;
+
+            border-radius: 20px;
+
+            padding: 5px 10px;
+
+            margin: 3px 4px 3px 0;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .required-skills-box {
+
+            background: #fffaf0;
+
+            border: 1px solid #f3dfb3;
+
+            border-radius: 8px;
+
+            padding: 13px;
+
+            margin-bottom: 18px;
+
+            color: #5c4a20;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+        }
+
+
+
+        .required-skills-box strong {
+
+            color: #7a5b16;
+
+        }
+
+
+
+        .eligible-box {
+
+            background: #e8f7ee;
+
+            border: 1px solid #b7e4c7;
+
+            color: #176b3a;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 12px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+        }
+
+
+
+        .not-eligible-box {
+
+            background: #fff0f0;
+
+            border: 1px solid #f0b8b8;
+
+            color: #a52828;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 12px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+        }
+
+
+
+        .closed-message {
+
+            background: #fff0f0;
+
+            border: 1px solid #f0b8b8;
+
+            color: #a52828;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 12px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+        }
+
+
+
+        .apply-btn {
+
+            display: block;
+
+            margin-top: auto;
+
+            padding: 12px 20px;
+
+            background: #2864d7;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+
+            width: 100%;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+
+
+        .apply-btn:hover {
+
+            background: #1e54b5;
+
+            transform: translateY(-1px);
+
+        }
+
+
+
+        .applied-btn {
+
+            display: block;
+
+            margin-top: auto;
+
+            padding: 12px 20px;
+
+            background: #198754;
+
+            color: white;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+        }
+
+
+
+        .disabled-btn {
+
+            display: block;
+
+            padding: 12px 20px;
+
+            background: #adb5bd;
+
+            color: white;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            cursor: not-allowed;
+
+        }
+
+
+
+        .closed-btn {
+
+            display: block;
+
+            padding: 12px 20px;
+
+            background: #dc3545;
+
+            color: white;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            cursor: not-allowed;
+
+        }
+
+
+
+        .no-jobs {
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+
+        }
+
+
+
+        .no-jobs h2 {
+
+            color: #243b80;
+
+        }
+
+
+
+        .no-jobs p {
+
+            color: #666;
+
+        }
+
+
+
+        @media (max-width: 1000px) {
+
+
+
+            .jobs-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+
+        @media (max-width: 800px) {
+
+
+
+            .layout {
+
+                flex-direction: column;
+
+            }
+
+
+
+            .sidebar {
+
+                width: 100%;
+
+            }
+
+
+
+            .content {
+
+                padding: 15px;
+
+            }
+
+
+
+            .college-banner {
+
+                height: 90px;
+
+                object-fit: cover;
+
+            }
+
+
+
+            .job-details {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+
+            .matching-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+        }
+
+
+
+        @media (max-width: 600px) {
+            .filter-form { grid-template-columns:1fr; }
+            .search-btn,.reset-btn { width:100%; }
+
+
+
+            .page-header {
+
+                padding: 20px;
+
+            }
+
+
+
+            .page-header h1 {
+
+                font-size: 24px;
+
+            }
+
+
+
+            .job-card {
+
+                padding: 18px;
+
+            }
+
+
+
+            .job-top {
+
+                flex-direction: column;
+
+            }
+
+
+
+            .status-badge {
+
+                margin-bottom: 10px;
+
+            }
+
+
+
+            .matching-box {
+
+                padding: 15px;
+
+            }
+
+        }
+
+
+
+
+        /* SEARCH & FILTER */
+        .search-filter-card { background:white; padding:22px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.07); margin-bottom:25px; }
+        .search-filter-form { display:grid; grid-template-columns:2fr 1fr auto auto; gap:12px; align-items:center; }
+        .search-input,.filter-input { width:100%; padding:13px 15px; border:1px solid #d7deea; border-radius:7px; font-size:14px; outline:none; color:#24324a; }
+        .search-input:focus,.filter-input:focus { border-color:#2864d7; box-shadow:0 0 0 3px rgba(40,100,215,.10); }
+        .search-btn,.reset-btn { padding:13px 20px; border-radius:7px; font-size:14px; font-weight:bold; cursor:pointer; text-decoration:none; text-align:center; border:none; white-space:nowrap; }
+        .search-btn { background:#2864d7; color:white; }
+        .search-btn:hover { background:#1e54b5; }
+        .reset-btn { background:#eef1f5; color:#24324a; border:1px solid #d7deea; }
+        .reset-btn:hover { background:#e2e6eb; }
+        .results-info { margin-top:15px; padding-top:15px; border-top:1px solid #edf0f4; color:#666; font-size:14px; }
+        .results-info strong { color:#243b80; }
+        @media (max-width:900px) { .search-filter-form { grid-template-columns:1fr 1fr; } }
+        @media (max-width:600px) { .search-filter-form { grid-template-columns:1fr; } .search-btn,.reset-btn { width:100%; } }
+
+    </style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+<div class="college-header">
+
+
+
+    <img
+
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+
+        alt="Deogiri College"
+
+        class="college-banner"
+
+    >
+
+
+
+</div>
+
+
+
+
+
+<div class="layout">
+
+
+
+
+
+    <!-- SIDEBAR -->
+
+
+
+    <aside class="sidebar">
+
+
+
+        <div class="platform-title">
+
+            Deogiri College<br>
+
+            Placement Platform
+
+        </div>
+
+
+
+
+
+        <div class="student-info">
+
+
+
+            <strong>
+
+                {{ request.session.student_prn }}
+
+            </strong>
+
+
+
+            <span>
+
+                Student Portal
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <a
+
+            href="{% url 'dashboard' %}"
+
+            class="menu-item"
+
+        >
+
+            🏠 Dashboard
+
+        </a>
+
+
+
+
+
+        <a
+
+            href="{% url 'my_profile' %}"
+
+            class="menu-item"
+
+        >
+
+            👤 My Profile
+
+        </a>
+
+
+
+
+
+        <a
+
+            href="{% url 'available_jobs' %}"
+
+            class="menu-item active"
+
+        >
+
+            💼 Available Jobs
+
+        </a>
+
+
+
+
+
+        <a
+
+            href="{% url 'my_applications' %}"
+
+            class="menu-item"
+
+        >
+
+            📄 My Applications
+
+        </a>
+       <a href="{% url 'student_interviews' %}" class="menu-item">
+    📅 Interviews
+</a>
+
+<a href="{% url 'student_tests' %}" class="menu-item">
+    📝 Online Tests
+</a>
+
+<a href="{% url 'student_feedback' %}" class="menu-item">
+    ⭐ Feedback
+</a>
+
+
+
+
+        <a
+
+            href="{% url 'resume' %}"
+
+            class="menu-item"
+
+        >
+
+            📑 Resume
+
+        </a>
+
+
+
+
+
+        <a
+
+            href="{% url 'student_notifications' %}"
+
+            class="menu-item notification-menu"
+
+        >
+
+            <span>🔔 Notifications</span>
+
+
+
+            {% if unread_notifications_count %}
+
+                <span class="notification-badge">
+
+                    {{ unread_notifications_count }}
+
+                </span>
+
+            {% endif %}
+
+        </a>
+
+
+
+
+
+        <a
+
+            href="{% url 'logout_student' %}"
+
+            class="menu-item logout-menu"
+
+        >
+
+            🚪 Logout
+
+        </a>
+
+
+
+    </aside>
+
+
+
+
+
+    <!-- MAIN CONTENT -->
+
+
+
+    <main class="content">
+
+
+
+
+
+        <div class="page-header">
+
+
+
+            <h1>
+
+                💼 Available Jobs
+
+            </h1>
+
+
+
+            <p>
+
+                Explore current placement opportunities,
+
+                check your eligibility, application deadline
+
+                and Smart Job Match before applying.
+
+            </p>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="filter-card">
+            <form method="GET" action="{% url 'available_jobs' %}" class="filter-form">
+                <div class="filter-group"><label>Search Job / Company / Skill</label><input type="text" name="search" class="filter-input" value="{{ search }}" placeholder="e.g. Python Developer, TCS, Django"></div>
+                <div class="filter-group"><label>Location</label><input type="text" name="location" class="filter-input" value="{{ location }}" placeholder="e.g. Pune"></div>
+                <button type="submit" class="search-btn">🔍 Search</button>
+                <a href="{% url 'available_jobs' %}" class="reset-btn">Reset</a>
+            </form>
+            <div class="result-summary">Showing <strong>{{ jobs|length }}</strong> matching job{{ jobs|length|pluralize }}.</div>
+        </div>
+
+
+        <!-- SEARCH & FILTER -->
+        <div class="search-filter-card">
+            <form method="GET" action="{% url 'available_jobs' %}" class="search-filter-form">
+                <input type="text" name="search" class="search-input" placeholder="Search job title, company or skills..." value="{{ search_query }}">
+                <input type="text" name="location" class="filter-input" placeholder="Location..." value="{{ location_filter }}">
+                <button type="submit" class="search-btn">🔍 Search</button>
+                <a href="{% url 'available_jobs' %}" class="reset-btn">Reset</a>
+            </form>
+            <div class="results-info">
+                <strong>{{ jobs|length }}</strong> job{{ jobs|length|pluralize }} found
+                {% if search_query %} for "<strong>{{ search_query }}</strong>"{% endif %}
+                {% if location_filter %} in "<strong>{{ location_filter }}</strong>"{% endif %}
+            </div>
+        </div>
+
+        {% if message %}
+
+
+
+            <div class="message">
+
+                {{ message }}
+
+            </div>
+
+
+
+        {% endif %}
+
+
+
+
+
+        {% if jobs %}
+
+
+
+
+
+            <div class="jobs-grid">
+
+
+
+
+
+                {% for job in jobs %}
+
+
+
+
+
+                    <div class="job-card {% if not job.is_application_open %}closed-job{% endif %}">
+
+
+
+
+
+                        <!-- JOB HEADER -->
+
+
+
+                        <div class="job-top">
+
+
+
+                            <div class="job-title-area">
+
+
+
+                                <h2>
+
+                                    {{ job.job_title }}
+
+                                </h2>
+
+
+
+                                <div class="company-name">
+
+                                    {{ job.company_name }}
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+
+                            {% if job.is_application_open %}
+
+
+
+                                <span class="status-badge open-badge">
+
+                                    ● Applications Open
+
+                                </span>
+
+
+
+                            {% else %}
+
+
+
+                                <span class="status-badge closed-badge">
+
+                                    ● Applications Closed
+
+                                </span>
+
+
+
+                            {% endif %}
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- APPLICATION DEADLINE -->
+
+
+
+{% if job.application_deadline %}
+
+
+
+    {% if job.is_application_open %}
+
+
+
+        <div class="deadline-section deadline-open">
+
+            <div class="deadline-content">
+
+
+
+                <span class="deadline-label">
+
+                    ⏰ Application Deadline
+
+                </span>
+
+
+
+                <span class="deadline-date">
+
+                    {{ job.application_deadline|date:"d M Y" }}
+
+                </span>
+
+
+
+                <span class="deadline-note">
+
+
+
+                    {% if job.days_left == 0 %}
+
+
+
+                        🔴 <strong>Closes Today</strong> —
+
+                        Submit your application before the end of today.
+
+
+
+                    {% elif job.days_left == 1 %}
+
+
+
+                        ⚠️ <strong>Closing Soon – 1 day left</strong> —
+
+                        Apply as soon as possible.
+
+
+
+                    {% elif job.days_left == 2 %}
+
+
+
+                        ⚠️ <strong>Closing Soon – 2 days left</strong> —
+
+                        Apply as soon as possible.
+
+
+
+                    {% elif job.days_left == 3 %}
+
+
+
+                        ⚠️ <strong>Closing Soon – 3 days left</strong> —
+
+                        Apply as soon as possible.
+
+
+
+                    {% else %}
+
+
+
+                        Applications are currently open.
+
+                        Submit your application on or before this date.
+
+
+
+                    {% endif %}
+
+
+
+                </span>
+
+
+
+            </div>
+
+        </div>
+
+
+
+    {% else %}
+
+
+
+        <div class="deadline-section deadline-closed">
+
+            <div class="deadline-content">
+
+
+
+                <span class="deadline-label">
+
+                    ⛔ Application Deadline Passed
+
+                </span>
+
+
+
+                <span class="deadline-date">
+
+                    {{ job.application_deadline|date:"d M Y" }}
+
+                </span>
+
+
+
+                <span class="deadline-note">
+
+                    <strong>Applications Closed.</strong>
+
+                    The application deadline for this job has passed.
+
+                </span>
+
+
+
+            </div>
+
+        </div>
+
+
+
+    {% endif %}
+
+
+
+{% else %}
+
+
+
+    <div class="deadline-section deadline-open">
+
+        <div class="deadline-content">
+
+
+
+            <span class="deadline-label">
+
+                ⏰ Application Deadline
+
+            </span>
+
+
+
+            <span class="deadline-date">
+
+                Not specified
+
+            </span>
+
+
+
+            <span class="deadline-note">
+
+                No application deadline has been specified for this job.
+
+            </span>
+
+
+
+        </div>
+
+    </div>
+
+
+
+{% endif %}
+
+
+
+
+
+                        <!-- JOB DETAILS -->
+
+
+
+                        <div class="job-details">
+
+
+
+
+
+                            <div class="detail-box">
+
+
+
+                                <strong>
+
+                                    LOCATION
+
+                                </strong>
+
+
+
+                                <span>
+
+                                    {{ job.location }}
+
+                                </span>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="detail-box">
+
+
+
+                                <strong>
+
+                                    SALARY
+
+                                </strong>
+
+
+
+                                <span>
+
+                                    {{ job.salary }}
+
+                                </span>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="detail-box">
+
+
+
+                                <strong>
+
+                                    ELIGIBLE COURSES
+
+                                </strong>
+
+
+
+                                <span>
+
+                                    {{ job.eligible_courses }}
+
+                                </span>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="detail-box">
+
+
+
+                                <strong>
+
+                                    ELIGIBLE DEPARTMENTS
+
+                                </strong>
+
+
+
+                                <span>
+
+                                    {{ job.eligible_departments }}
+
+                                </span>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="detail-box">
+
+
+
+                                <strong>
+
+                                    GRADUATION YEAR
+
+                                </strong>
+
+
+
+                                <span>
+
+                                    {{ job.graduation_year }}
+
+                                </span>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="detail-box">
+
+
+
+                                <strong>
+
+                                    JOB TYPE
+
+                                </strong>
+
+
+
+                                <span>
+
+                                    Placement Opportunity
+
+                                </span>
+
+
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- DESCRIPTION -->
+
+
+
+                        <div class="description">
+
+
+
+                            <strong>
+
+                                Job Description
+
+                            </strong>
+
+
+
+                            <p>
+
+                                {{ job.description }}
+
+                            </p>
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- REQUIRED SKILLS -->
+
+
+
+                        <div class="required-skills-box">
+
+
+
+                            <strong>
+
+                                Required Skills:
+
+                            </strong>
+
+
+
+                            {% if job.required_skills %}
+
+
+
+                                {{ job.required_skills }}
+
+
+
+                            {% else %}
+
+
+
+                                Not specified by recruiter
+
+
+
+                            {% endif %}
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- SMART JOB MATCH -->
+
+
+
+                        <div class="matching-box">
+
+
+
+
+
+                            <div class="matching-header">
+
+
+
+                                <div class="matching-title">
+
+                                    🤖 Smart Job Match
+
+                                </div>
+
+
+
+                                <div class="match-percentage">
+
+                                    {{ job.match_percentage }}%
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="match-label">
+
+                                {{ job.match_label }}
+
+                            </div>
+
+
+
+
+
+                            <div class="progress-bar">
+
+
+
+                               <progress
+    class="progress-fill"
+    value="{{ job.match_percentage }}"
+    max="100">
+</progress>
+
+
+
+                            </div>
+
+
+
+
+
+                            {% if job.required_skills %}
+
+
+
+
+
+                                <div class="skills-row">
+
+
+
+                                    <strong>
+
+                                        Matched Skills
+
+                                    </strong>
+
+
+
+
+
+                                    {% if job.matched_skills %}
+
+
+
+
+
+                                        {% for skill in job.matched_skills %}
+
+
+
+                                            <span class="matched-skill">
+
+                                                ✓ {{ skill|title }}
+
+                                            </span>
+
+
+
+                                        {% endfor %}
+
+
+
+
+
+                                    {% else %}
+
+
+
+                                        <span class="missing-skill">
+
+                                            No matching skills
+
+                                        </span>
+
+
+
+                                    {% endif %}
+
+
+
+                                </div>
+
+
+
+
+
+                                <div class="skills-row">
+
+
+
+                                    <strong>
+
+                                        Skills to Improve
+
+                                    </strong>
+
+
+
+
+
+                                    {% if job.missing_skills %}
+
+
+
+
+
+                                        {% for skill in job.missing_skills %}
+
+
+
+                                            <span class="missing-skill">
+
+                                                {{ skill|title }}
+
+                                            </span>
+
+
+
+                                        {% endfor %}
+
+
+
+
+
+                                    {% else %}
+
+
+
+                                        <span class="matched-skill">
+
+                                            ✓ All required skills matched
+
+                                        </span>
+
+
+
+                                    {% endif %}
+
+
+
+                                </div>
+
+
+
+
+
+                            {% else %}
+
+
+
+
+
+                                <div class="skills-row">
+
+
+
+                                    <span>
+
+                                        Recruiter has not specified required skills for this job.
+
+                                    </span>
+
+
+
+                                </div>
+
+
+
+
+
+                            {% endif %}
+
+
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- APPLICATION ACTION -->
+
+
+
+
+
+                        {% if job in eligible_jobs %}
+
+
+
+
+
+                            <div class="eligible-box">
+
+                                ✅ You are eligible for this job.
+
+                            </div>
+
+
+
+
+
+                            {% if job.id in applied_job_ids %}
+
+
+
+
+
+                                <div class="applied-btn">
+
+                                    ✓ Already Applied
+
+                                </div>
+
+
+
+
+
+                            {% else %}
+
+
+
+
+
+                                {% if job.is_application_open %}
+
+
+
+
+
+                                    <form method="POST" action="{% url 'apply_job' job.id %}">
+    {% csrf_token %}
+    <button type="submit" class="apply-btn">Apply Now</button>
+</form>
+
+
+
+
+
+                                {% else %}
+
+
+
+
+
+                                    <div class="closed-message">
+
+                                        ⛔ The application deadline has passed.
+
+                                    </div>
+
+
+
+                                    <div class="closed-btn">
+
+                                        Applications Closed
+
+                                    </div>
+
+
+
+
+
+                                {% endif %}
+
+
+
+
+
+                            {% endif %}
+
+
+
+
+
+                        {% else %}
+
+
+
+
+
+                            <div class="not-eligible-box">
+
+                                ❌ You are not eligible for this job.
+
+                            </div>
+
+
+
+
+
+                            {% if job.is_application_open %}
+
+
+
+                                <div class="disabled-btn">
+
+                                    Not Eligible
+
+                                </div>
+
+
+
+                            {% else %}
+
+
+
+                                <div class="closed-btn">
+
+                                    Applications Closed
+
+                                </div>
+
+
+
+                            {% endif %}
+
+
+
+
+
+                        {% endif %}
+
+
+
+
+
+                    </div>
+
+
+
+
+
+                {% endfor %}
+
+
+
+
+
+            </div>
+
+
+
+
+
+        {% else %}
+
+
+
+
+
+            <div class="no-jobs">
+
+
+
+                <h2>
+
+                    No Jobs Available
+
+                </h2>
+
+
+
+                <p>
+
+                    {% if search or location %}No jobs match your search/filter. Try different keywords or Reset.{% else %}There are currently no placement opportunities available. Please check again later.{% endif %}
+
+                </p>
+
+
+
+            </div>
+
+
+
+
+
+        {% endif %}
+
+
+
+
+
+    </main>
+
+
+
+
+
+</div>
+
+
+
+
+
+</body>
+
+
+
+</html>

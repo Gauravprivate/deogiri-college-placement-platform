@@ -1,0 +1,699 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ attempt.assignment.test.title }} | Online Test</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .test-header {
+            background: #0f2f67;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .test-header h1 {
+            margin: 0 0 5px;
+            font-size: 21px;
+        }
+
+        .test-header p {
+            margin: 0;
+            font-size: 13px;
+            color: #dbeafe;
+        }
+
+        .timer-box {
+            min-width: 145px;
+            text-align: center;
+            background: white;
+            color: #0f2f67;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .timer-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        #timer {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .timer-warning {
+            color: #b91c1c !important;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 0 20px 40px;
+        }
+
+        .test-info {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #0f2f67;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            padding: 13px 15px;
+            border-radius: 7px;
+            margin-bottom: 22px;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .question-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .question-number {
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .question-text {
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 1.55;
+            overflow-wrap: anywhere;
+        }
+
+        .marks {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            padding: 13px 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1.45;
+        }
+
+        .option-label:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .option-label:has(input:checked) {
+            border-color: #2563eb;
+            background: #dbeafe;
+        }
+
+        .option-label input {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .option-letter {
+            font-weight: bold;
+            color: #0f2f67;
+            min-width: 20px;
+        }
+
+        .submit-card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .submit-card h3 {
+            margin: 0 0 5px;
+            color: #0f2f67;
+        }
+
+        .submit-card p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            border: none;
+            background: #15803d;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .submit-btn:hover {
+            background: #166534;
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .answered-counter {
+            margin-bottom: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            padding: 12px 15px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .empty-state {
+            background: white;
+            text-align: center;
+            padding: 45px 20px;
+            border-radius: 10px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 800px) {
+            .test-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .test-header {
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .college-banner {
+                width: 100%;
+            }
+
+            .test-header {
+                flex-direction: column;
+                align-items: stretch;
+                position: static;
+            }
+
+            .timer-box {
+                width: 100%;
+            }
+
+            .container {
+                margin-top: 18px;
+                padding: 0 12px 30px;
+            }
+
+            .test-info {
+                grid-template-columns: 1fr;
+            }
+
+            .question-card {
+                padding: 18px;
+            }
+
+            .question-top {
+                flex-direction: column;
+            }
+
+            .submit-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+    <div class="test-header">
+
+        <div>
+            <h1>
+                {{ attempt.assignment.test.title }}
+            </h1>
+
+            <p>
+                {{ attempt.assignment.test.job.job_title }}
+                |
+                {{ attempt.assignment.test.job.company_name }}
+            </p>
+        </div>
+
+        <div class="timer-box">
+            <div class="timer-label">
+                Time Remaining
+            </div>
+
+            <div id="timer">
+                --:--
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="test-info">
+
+            <div class="info-card">
+                <div class="info-label">
+                    Student
+                </div>
+
+                <div class="info-value">
+                    {{ attempt.assignment.application.student.name }}
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">
+                    Test Type
+                </div>
+
+                <div class="info-value">
+                    {{ attempt.assignment.test.test_type }}
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">
+                    Duration
+                </div>
+
+                <div class="info-value">
+                    {{ attempt.assignment.test.duration_minutes }} min
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">
+                    Passing Percentage
+                </div>
+
+                <div class="info-value">
+                    {{ attempt.assignment.test.passing_percentage }}%
+                </div>
+            </div>
+
+        </div>
+
+        <div class="warning">
+            <strong>Test in progress:</strong>
+            Do not refresh, close, or leave this page unnecessarily.
+            When the timer reaches zero, your test will be submitted
+            automatically.
+        </div>
+
+        {% if questions %}
+
+            <div class="answered-counter">
+                Answered:
+                <span id="answeredCount">0</span>
+                /
+                {{ questions|length }}
+            </div>
+
+            <form
+                method="post"
+                action="{% url 'submit_online_test' attempt.id %}"
+                id="testForm"
+            >
+
+                {% csrf_token %}
+
+                {% for question in questions %}
+
+                    <div class="question-card">
+
+                        <div class="question-top">
+
+                            <div>
+
+                                <div class="question-number">
+                                    Question {{ forloop.counter }}
+                                </div>
+
+                                <div class="question-text">
+                                    {{ question.question_text }}
+                                </div>
+
+                            </div>
+
+                            <span class="marks">
+                                {{ question.marks }}
+                                Mark{{ question.marks|pluralize }}
+                            </span>
+
+                        </div>
+
+                        <div class="options">
+
+                            <label class="option-label">
+
+                                <input
+                                    type="radio"
+                                    name="question_{{ question.id }}"
+                                    value="A"
+                                >
+
+                                <span class="option-letter">
+                                    A.
+                                </span>
+
+                                <span>
+                                    {{ question.option_a }}
+                                </span>
+
+                            </label>
+
+                            <label class="option-label">
+
+                                <input
+                                    type="radio"
+                                    name="question_{{ question.id }}"
+                                    value="B"
+                                >
+
+                                <span class="option-letter">
+                                    B.
+                                </span>
+
+                                <span>
+                                    {{ question.option_b }}
+                                </span>
+
+                            </label>
+
+                            <label class="option-label">
+
+                                <input
+                                    type="radio"
+                                    name="question_{{ question.id }}"
+                                    value="C"
+                                >
+
+                                <span class="option-letter">
+                                    C.
+                                </span>
+
+                                <span>
+                                    {{ question.option_c }}
+                                </span>
+
+                            </label>
+
+                            <label class="option-label">
+
+                                <input
+                                    type="radio"
+                                    name="question_{{ question.id }}"
+                                    value="D"
+                                >
+
+                                <span class="option-letter">
+                                    D.
+                                </span>
+
+                                <span>
+                                    {{ question.option_d }}
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+                <div class="submit-card">
+
+                    <div>
+                        <h3>Finished the Test?</h3>
+
+                        <p>
+                            Check your answers before submitting.
+                            After final submission, the test cannot
+                            normally be attempted again.
+                        </p>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                        id="submitButton"
+                    >
+                        Submit Test
+                    </button>
+
+                </div>
+
+            </form>
+
+        {% else %}
+
+            <div class="empty-state">
+                No questions are available for this test.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    {% if questions %}
+
+        <script>
+            let remainingSeconds = Number("{{ remaining_seconds|default:0 }}");
+
+            const timerElement = document.getElementById("timer");
+            const testForm = document.getElementById("testForm");
+            const submitButton = document.getElementById("submitButton");
+            const answeredCount = document.getElementById("answeredCount");
+
+            let testSubmitted = false;
+
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+
+                return (
+                    String(minutes).padStart(2, "0")
+                    + ":"
+                    + String(secs).padStart(2, "0")
+                );
+            }
+
+            function updateTimer() {
+
+                if (remainingSeconds <= 0) {
+
+                    timerElement.textContent = "00:00";
+                    timerElement.classList.add("timer-warning");
+
+                    if (!testSubmitted) {
+                        testSubmitted = true;
+
+                        submitButton.disabled = true;
+                        submitButton.textContent = "Submitting...";
+
+                        testForm.submit();
+                    }
+
+                    return;
+                }
+
+                timerElement.textContent = formatTime(remainingSeconds);
+
+                if (remainingSeconds <= 300) {
+                    timerElement.classList.add("timer-warning");
+                }
+
+                remainingSeconds--;
+            }
+
+            function updateAnsweredCount() {
+
+                const answeredQuestions =
+                    new Set();
+
+                const selectedAnswers =
+                    document.querySelectorAll(
+                        'input[type="radio"]:checked'
+                    );
+
+                selectedAnswers.forEach(function(answer) {
+                    answeredQuestions.add(answer.name);
+                });
+
+                answeredCount.textContent =
+                    answeredQuestions.size;
+            }
+
+            document
+                .querySelectorAll('input[type="radio"]')
+                .forEach(function(radio) {
+
+                    radio.addEventListener(
+                        "change",
+                        updateAnsweredCount
+                    );
+
+                });
+
+            testForm.addEventListener(
+                "submit",
+                function(event) {
+
+                    if (testSubmitted) {
+                        return;
+                    }
+
+                    const confirmed = confirm(
+                        "Are you sure you want to submit the test? "
+                        + "You cannot normally attempt it again."
+                    );
+
+                    if (!confirmed) {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    testSubmitted = true;
+
+                    submitButton.disabled = true;
+                    submitButton.textContent = "Submitting...";
+                }
+            );
+
+            window.addEventListener(
+                "beforeunload",
+                function(event) {
+
+                    if (!testSubmitted && remainingSeconds > 0) {
+                        event.preventDefault();
+                        event.returnValue = "";
+                    }
+
+                }
+            );
+
+            updateAnsweredCount();
+            updateTimer();
+
+            const timerInterval = setInterval(
+                function() {
+
+                    if (testSubmitted) {
+                        clearInterval(timerInterval);
+                        return;
+                    }
+
+                    updateTimer();
+
+                },
+                1000
+            );
+        </script>
+
+    {% endif %}
+
+</body>
+</html>

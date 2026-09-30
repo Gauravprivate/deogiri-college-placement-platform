@@ -1,0 +1,896 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}
+Manage Recruiters | College Placement Portal
+{% endblock %}
+
+{% block recruiters_active %}
+active
+{% endblock %}
+
+{% block extra_css %}
+
+.recruiters-container {
+    max-width: 1250px;
+    margin: 32px auto;
+}
+
+/* PAGE HEADER */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    font-size: 27px;
+    color: #123b73;
+    margin-bottom: 6px;
+}
+
+.page-header p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.add-btn {
+    text-decoration: none;
+    background: #198754;
+    color: white;
+    padding: 11px 17px;
+    border-radius: 7px;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(25,135,84,0.18);
+    transition: 0.2s;
+}
+
+.add-btn:hover {
+    background: #157347;
+    transform: translateY(-1px);
+}
+
+/* SUMMARY */
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+    border: 1px solid #edf0f5;
+}
+
+.summary-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: #e8f1ff;
+    color: #0b3d91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.summary-info h3 {
+    font-size: 22px;
+    color: #123b73;
+}
+
+.summary-info p {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 3px;
+}
+
+/* SEARCH AND FILTER */
+
+.filter-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+    border: 1px solid #edf0f5;
+}
+
+.filter-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #123b73;
+    margin-bottom: 14px;
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: minmax(250px, 1fr) 220px auto auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.filter-input,
+.filter-select {
+    width: 100%;
+    height: 43px;
+    padding: 0 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    outline: none;
+    background: white;
+    color: #1f2937;
+    font-size: 13px;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    border-color: #0b3d91;
+    box-shadow: 0 0 0 3px rgba(11,61,145,0.08);
+}
+
+.search-btn {
+    height: 43px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 7px;
+    background: #0b3d91;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-btn:hover {
+    background: #082f70;
+}
+
+.reset-btn {
+    height: 43px;
+    padding: 0 18px;
+    border-radius: 7px;
+    border: 1px solid #d1d5db;
+    background: white;
+    color: #374151;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.reset-btn:hover {
+    background: #f3f4f6;
+}
+
+.filter-result {
+    margin-top: 14px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.filter-result strong {
+    color: #123b73;
+}
+
+/* TABLE CARD */
+
+.table-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+.toolbar {
+    padding: 15px 18px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.toolbar-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #374151;
+}
+
+.toolbar-count {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* TABLE */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1100px;
+}
+
+th {
+    background: #0b3d91;
+    color: white;
+    text-align: left;
+    padding: 14px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #edf0f4;
+    font-size: 13px;
+    color: #374151;
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: 0.15s;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* COMPANY */
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.company-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: #e8f1ff;
+    color: #0b3d91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.company-name {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.recruiter-name {
+    font-weight: 500;
+    color: #374151;
+}
+
+.email {
+    color: #4b5563;
+}
+
+/* VERIFICATION STATUS */
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ACTIONS */
+
+.actions {
+    white-space: nowrap;
+}
+
+.edit-button {
+    display: inline-block;
+    text-decoration: none;
+    background: #e8f1ff;
+    color: #0b3d91;
+    border: none;
+    padding: 7px 11px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.edit-button:hover {
+    background: #d4e5ff;
+}
+
+.approve-button {
+    display: inline-block;
+    background: #d4edda;
+    color: #155724;
+    border: none;
+    padding: 7px 11px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.approve-button:hover {
+    background: #c3e6cb;
+}
+
+.reject-button {
+    display: inline-block;
+    background: #ffe8e8;
+    color: #c62828;
+    border: none;
+    padding: 7px 11px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.reject-button:hover {
+    background: #ffd2d2;
+}
+
+.delete-button {
+    display: inline-block;
+    background: #ffe8e8;
+    color: #c62828;
+    border: none;
+    padding: 7px 11px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-button:hover {
+    background: #ffd2d2;
+}
+
+/* EMPTY */
+
+.empty-message {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+}
+
+.empty-icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.empty-message h3 {
+    color: #374151;
+    margin-bottom: 7px;
+}
+
+.empty-message p {
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.clear-filter-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #0b3d91;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.clear-filter-btn:hover {
+    background: #082f70;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+
+    .filter-form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .recruiters-container {
+        margin-top: 22px;
+        padding: 0 14px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-header h2 {
+        font-size: 23px;
+    }
+
+    .header-buttons {
+        width: 100%;
+    }
+
+    .add-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .summary-card {
+        padding: 15px;
+    }
+
+    .filter-form {
+        grid-template-columns: 1fr;
+    }
+
+    .search-btn,
+    .reset-btn {
+        width: 100%;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="recruiters-container">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>Manage Recruiters</h2>
+
+            <p>
+                View and manage companies and recruiters registered in the placement portal.
+            </p>
+
+        </div>
+
+        <div class="header-buttons">
+
+            <a href="{% url 'add_recruiter' %}" class="add-btn">
+                + Add Recruiter
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            🏢
+        </div>
+
+        <div class="summary-info">
+
+            <h3>{{ result_count }}</h3>
+
+            {% if search_query or status_filter %}
+
+                <p>Recruiters Matching Current Filters</p>
+
+            {% else %}
+
+                <p>Total Registered Recruiters</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH AND FILTERS -->
+
+    <div class="filter-card">
+
+        <div class="filter-title">
+            🔍 Search & Filter Recruiters
+        </div>
+
+        <form
+            method="GET"
+            action="{% url 'manage_recruiters' %}"
+            class="filter-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                class="filter-input"
+                value="{{ search_query }}"
+                placeholder="Search company, recruiter name or email"
+                aria-label="Search recruiters"
+            >
+
+            <select
+                name="status"
+                class="filter-select"
+                aria-label="Filter by verification status"
+            >
+
+                <option value="">
+                    All Statuses
+                </option>
+
+                <option
+                    value="Pending"
+                    {% if status_filter == "Pending" %}selected{% endif %}
+                >
+                    Pending
+                </option>
+
+                <option
+                    value="Approved"
+                    {% if status_filter == "Approved" %}selected{% endif %}
+                >
+                    Approved
+                </option>
+
+                <option
+                    value="Rejected"
+                    {% if status_filter == "Rejected" %}selected{% endif %}
+                >
+                    Rejected
+                </option>
+
+            </select>
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+                Search
+            </button>
+
+            <a
+                href="{% url 'manage_recruiters' %}"
+                class="reset-btn"
+            >
+                Reset
+            </a>
+
+        </form>
+
+        <div class="filter-result">
+
+            Showing
+
+            <strong>
+                {{ result_count }}
+            </strong>
+
+            recruiter{{ result_count|pluralize }}
+
+            {% if search_query or status_filter %}
+
+                matching your filters.
+
+            {% else %}
+
+                in total.
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <div class="toolbar">
+
+            <div class="toolbar-title">
+                Recruiter Records
+            </div>
+
+            <div class="toolbar-count">
+
+                {{ result_count }}
+
+                record{{ result_count|pluralize }}
+
+            </div>
+
+        </div>
+
+
+        {% if recruiters %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Company Name</th>
+                        <th>Recruiter Name</th>
+                        <th>Email</th>
+                        <th>Verification Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for recruiter in recruiters %}
+
+                    <tr>
+
+                        <!-- COMPANY -->
+
+                        <td>
+
+                            <div class="company-info">
+
+                                <div class="company-avatar">
+                                    {{ recruiter.company_name|first|upper }}
+                                </div>
+
+                                <div class="company-name">
+                                    {{ recruiter.company_name }}
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- RECRUITER -->
+
+                        <td class="recruiter-name">
+                            {{ recruiter.recruiter_name }}
+                        </td>
+
+
+                        <!-- EMAIL -->
+
+                        <td class="email">
+                            {{ recruiter.email }}
+                        </td>
+
+
+                        <!-- VERIFICATION STATUS -->
+
+                        <td>
+
+                            {% if recruiter.verification_status == "Pending" %}
+
+                                <span class="status pending">
+                                    🟡 Pending
+                                </span>
+
+                            {% elif recruiter.verification_status == "Approved" %}
+
+                                <span class="status approved">
+                                    🟢 Approved
+                                </span>
+
+                            {% elif recruiter.verification_status == "Rejected" %}
+
+                                <span class="status rejected">
+                                    🔴 Rejected
+                                </span>
+
+                            {% else %}
+
+                                <span class="status">
+                                    {{ recruiter.verification_status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTIONS -->
+
+                        <td class="actions">
+
+                            {% if recruiter.verification_status == "Pending" %}
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'approve_recruiter' recruiter.id %}"
+                                    style="display:inline;"
+                                    onsubmit="return confirm('Are you sure you want to approve this recruiter?');"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="approve-button"
+                                    >
+                                        ✓ Approve
+                                    </button>
+
+                                </form>
+
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'reject_recruiter' recruiter.id %}"
+                                    style="display:inline;"
+                                    onsubmit="return confirm('Are you sure you want to reject this recruiter?');"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="reject-button"
+                                    >
+                                        ✕ Reject
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+
+                            <!-- EDIT -->
+
+                            <a
+                                href="{% url 'edit_recruiter' recruiter.id %}"
+                                class="edit-button"
+                            >
+                                ✏ Edit
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <form
+                                method="POST"
+                                action="{% url 'delete_recruiter' recruiter.id %}"
+                                style="display:inline;"
+                                onsubmit="return confirm('Are you sure you want to delete this recruiter?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    🗑 Delete
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-message">
+
+            <div class="empty-icon">
+                🏢
+            </div>
+
+            {% if search_query or status_filter %}
+
+                <h3>
+                    No Matching Recruiters
+                </h3>
+
+                <p>
+                    No recruiters match your current search or verification status filter.
+                </p>
+
+                <a
+                    href="{% url 'manage_recruiters' %}"
+                    class="clear-filter-btn"
+                >
+                    Clear Filters
+                </a>
+
+            {% else %}
+
+                <h3>
+                    No Recruiters Found
+                </h3>
+
+                <p>
+                    No recruiters are currently registered in the placement portal.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

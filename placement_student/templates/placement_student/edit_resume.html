@@ -1,0 +1,607 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Resume | Deogiri College</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .college-header {
+            width: 100%;
+            background: white;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            background: #0b3d91;
+            color: white;
+            padding: 25px 18px;
+            flex-shrink: 0;
+        }
+
+        .student-box {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 25px;
+        }
+
+        .student-box h2 {
+            text-align: left;
+            margin: 0 0 7px;
+            font-size: 20px;
+        }
+
+        .student-box p {
+            font-size: 12px;
+            color: #dbeafe;
+            word-break: break-word;
+        }
+
+        .menu-title {
+            margin: 20px 10px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            font-weight: bold;
+            color: #bfdbfe;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #1558c0;
+        }
+
+        .sidebar a.active {
+            background: #ffffff;
+            color: #0b3d91;
+            font-weight: bold;
+        }
+
+        /* NOTIFICATIONS */
+
+        .notification-link {
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .notification-badge {
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .logout-link {
+            color: #ffffff !important;
+            margin-top: 5px;
+        }
+
+        .logout-link:hover {
+            background: #dc3545 !important;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            padding: 35px;
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            color: #0b3d91;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        /* FORM */
+
+        .form-card {
+            background: white;
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .student-info {
+            background: #eef4ff;
+            padding: 16px 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .student-info h3 {
+            color: #0b3d91;
+            margin-bottom: 5px;
+        }
+
+        .student-info p {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+        }
+
+        .form-group textarea:focus {
+            border-color: #0b3d91;
+            box-shadow: 0 0 0 2px rgba(11, 61, 145, 0.1);
+        }
+
+        .form-help {
+            margin-top: 7px;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* BUTTONS */
+
+        .button-area {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .save-btn {
+            background: #0b3d91;
+            color: white;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .save-btn:hover {
+            background: #082f70;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #1f2937;
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 768px) {
+
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .student-box {
+                margin-bottom: 15px;
+            }
+
+            .menu-title {
+                margin-top: 12px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            .sidebar .notification-link {
+                display: inline-flex !important;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .button-area {
+                flex-direction: column;
+            }
+
+            .save-btn,
+            .cancel-btn {
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- COLLEGE HEADER -->
+
+    <div class="college-header">
+
+        <img
+            src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+            alt="Deogiri College"
+            class="college-banner"
+        >
+
+    </div>
+
+
+    <div class="layout">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+
+            <div class="student-box">
+
+                <h2>
+                    Student Portal
+                </h2>
+
+                <p>
+                    PRN: {{ request.session.student_prn }}
+                </p>
+
+            </div>
+
+
+            <div class="menu-title">
+                Main Menu
+            </div>
+
+
+            <a href="{% url 'dashboard' %}">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="{% url 'my_profile' %}">
+                👤 My Profile
+            </a>
+
+
+            <a href="{% url 'available_jobs' %}">
+                💼 Available Jobs
+            </a>
+
+
+            <a href="{% url 'my_applications' %}">
+                📄 My Applications
+            </a>
+
+
+            <a
+                href="{% url 'resume' %}"
+                class="active"
+            >
+                📑 Resume
+            </a>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <a
+                href="{% url 'student_notifications' %}"
+                class="notification-link"
+            >
+
+                <span>
+                    🔔 Notifications
+                </span>
+
+                {% if unread_notifications_count %}
+
+                    <span class="notification-badge">
+                        {{ unread_notifications_count }}
+                    </span>
+
+                {% endif %}
+
+            </a>
+
+
+            <div class="menu-title">
+                Account
+            </div>
+
+
+            <a
+                href="{% url 'logout_student' %}"
+                class="logout-link"
+            >
+                🚪 Logout
+            </a>
+
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main">
+
+
+            <div class="page-header">
+
+                <h1>
+                    Edit Resume
+                </h1>
+
+                <p>
+                    Update your professional information and
+                    build your placement profile.
+                </p>
+
+            </div>
+
+
+            <div class="form-card">
+
+
+                <!-- STUDENT INFO -->
+
+                <div class="student-info">
+
+                    <h3>
+                        {{ student.name }}
+                    </h3>
+
+                    <p>
+                        {{ student.email }} | {{ student.phone }}
+                    </p>
+
+                </div>
+
+
+                <!-- EDIT RESUME FORM -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- CAREER OBJECTIVE -->
+
+                    <div class="form-group">
+
+                        <label for="career_objective">
+                            Career Objective
+                        </label>
+
+                        <textarea
+                            id="career_objective"
+                            name="career_objective"
+                            placeholder="Write your career objective..."
+                        >{{ resume.career_objective }}</textarea>
+
+                        <p class="form-help">
+                            Write a short professional objective describing
+                            your career goal.
+                        </p>
+
+                    </div>
+
+
+                    <!-- TECHNICAL SKILLS -->
+
+                    <div class="form-group">
+
+                        <label for="technical_skills">
+                            Technical Skills
+                        </label>
+
+                        <textarea
+                            id="technical_skills"
+                            name="technical_skills"
+                            placeholder="Example: Python, Django, SQL, MySQL, HTML, CSS, JavaScript"
+                        >{{ resume.technical_skills }}</textarea>
+
+                        <p class="form-help">
+                            Add your programming languages, frameworks,
+                            databases and technical tools.
+                        </p>
+
+                    </div>
+
+
+                    <!-- PROJECTS -->
+
+                    <div class="form-group">
+
+                        <label for="projects">
+                            Projects
+                        </label>
+
+                        <textarea
+                            id="projects"
+                            name="projects"
+                            placeholder="Describe your academic or personal projects..."
+                        >{{ resume.projects }}</textarea>
+
+                        <p class="form-help">
+                            Mention important academic, personal or
+                            internship projects.
+                        </p>
+
+                    </div>
+
+
+                    <!-- CERTIFICATIONS -->
+
+                    <div class="form-group">
+
+                        <label for="certifications">
+                            Certifications
+                        </label>
+
+                        <textarea
+                            id="certifications"
+                            name="certifications"
+                            placeholder="Enter your certifications..."
+                        >{{ resume.certifications }}</textarea>
+
+                    </div>
+
+
+                    <!-- ACHIEVEMENTS -->
+
+                    <div class="form-group">
+
+                        <label for="achievements">
+                            Achievements
+                        </label>
+
+                        <textarea
+                            id="achievements"
+                            name="achievements"
+                            placeholder="Enter your academic or professional achievements..."
+                        >{{ resume.achievements }}</textarea>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-area">
+
+
+                        <button
+                            type="submit"
+                            class="save-btn"
+                        >
+                            Save Resume
+                        </button>
+
+
+                        <a
+                            href="{% url 'resume' %}"
+                            class="cancel-btn"
+                        >
+                            Cancel
+                        </a>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1080 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}Placement History | Deogiri College{% endblock %}
+
+{% block history_active %}active{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       PAGE HEADING
+    ========================= */
+
+    .page-heading {
+        margin-bottom: 25px;
+    }
+
+    .page-heading h1 {
+        font-size: 28px;
+        color: #0f172a;
+        margin-bottom: 7px;
+    }
+
+    .page-heading p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+    /* =========================
+       SUMMARY CARDS
+    ========================= */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 12px;
+        padding: 22px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    }
+
+    .summary-card .icon {
+        font-size: 25px;
+        margin-bottom: 12px;
+    }
+
+    .summary-card .number {
+        font-size: 28px;
+        font-weight: bold;
+        color: #0f172a;
+        margin-bottom: 6px;
+    }
+
+    .summary-card .label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #334155;
+        margin-bottom: 5px;
+    }
+
+    .summary-card .description {
+        font-size: 12px;
+        color: #94a3b8;
+        line-height: 1.4;
+    }
+
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .section-header {
+        margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+        font-size: 20px;
+        color: #0f172a;
+        margin-bottom: 6px;
+    }
+
+    .section-header p {
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+
+    /* =========================
+       FILTER FORM
+    ========================= */
+
+    .filter-form {
+        display: grid;
+        grid-template-columns: 2fr repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+        font-weight: bold;
+        color: #475569;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 7px;
+        background: white;
+        color: #1e293b;
+        outline: none;
+        font-size: 13px;
+    }
+
+    .form-control:focus {
+        border-color: #2563eb;
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-block;
+        border: none;
+        border-radius: 7px;
+        padding: 10px 18px;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #2563eb;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+    .filter-status {
+        margin-top: 15px;
+        padding: 10px 12px;
+        background: #eff6ff;
+        border-left: 4px solid #2563eb;
+        border-radius: 5px;
+        font-size: 13px;
+        color: #1e40af;
+    }
+
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 750px;
+    }
+
+    th {
+        background: #f8fafc;
+        color: #475569;
+        text-align: left;
+        padding: 12px;
+        font-size: 12px;
+        border-bottom: 1px solid #e2e8f0;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 13px 12px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 13px;
+        color: #334155;
+        vertical-align: top;
+    }
+
+    tr:hover td {
+        background: #f8fafc;
+    }
+
+    .student-name {
+        font-weight: bold;
+        color: #0f172a;
+    }
+
+    .prn {
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .company-name {
+        font-weight: bold;
+        color: #1e40af;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        background: #dcfce7;
+        color: #166534;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .year-badge {
+        display: inline-block;
+        padding: 5px 9px;
+        background: #e0e7ff;
+        color: #3730a3;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+
+    /* =========================
+       REPORT GRID
+    ========================= */
+
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .report-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .report-card-header {
+        padding: 17px 20px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .report-card-header h3 {
+        font-size: 16px;
+        color: #0f172a;
+    }
+
+    .report-card-body {
+        padding: 0;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .report-row {
+        padding: 14px 18px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .report-row:last-child {
+        border-bottom: none;
+    }
+
+    .report-row-title {
+        font-weight: bold;
+        color: #0f172a;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .report-row-stats {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        color: #64748b;
+        font-size: 11px;
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty-state {
+        text-align: center;
+        padding: 45px 20px;
+    }
+
+    .empty-state .empty-icon {
+        font-size: 45px;
+        margin-bottom: 15px;
+    }
+
+    .empty-state h3 {
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        color: #94a3b8;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 12px;
+        padding: 10px 0 5px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1200px) {
+
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .filter-form {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .report-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 768px) {
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+
+        .page-heading h1 {
+            font-size: 23px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-heading">
+
+    <h1>Placement History</h1>
+
+    <p>
+        View historical student placements, company selections,
+        placement records and year-wise placement performance.
+    </p>
+
+</div>
+
+
+<!-- =========================
+     SUMMARY CARDS
+========================== -->
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <div class="icon">🎓</div>
+
+        <div class="number">
+            {{ total_placed_students }}
+        </div>
+
+        <div class="label">
+            Placed Students
+        </div>
+
+        <div class="description">
+            Unique students selected by companies
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="icon">📋</div>
+
+        <div class="number">
+            {{ total_placement_records }}
+        </div>
+
+        <div class="label">
+            Placement Records
+        </div>
+
+        <div class="description">
+            Total selected application records
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="icon">🏢</div>
+
+        <div class="number">
+            {{ total_companies }}
+        </div>
+
+        <div class="label">
+            Companies
+        </div>
+
+        <div class="description">
+            Companies represented in placement history
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="icon">🏫</div>
+
+        <div class="number">
+            {{ total_departments }}
+        </div>
+
+        <div class="label">
+            Departments
+        </div>
+
+        <div class="description">
+            Departments represented in current results
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SEARCH AND FILTERS
+========================== -->
+
+<section class="section">
+
+    <div class="section-header">
+
+        <h2>Search & Filter Placement History</h2>
+
+        <p>
+            Search students or narrow placement records by
+            department, course, graduation year and company.
+        </p>
+
+    </div>
+
+
+    <form method="GET">
+
+        <div class="filter-form">
+
+            <div class="form-group">
+
+                <label>
+                    Search
+                </label>
+
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Student, PRN, company or job role"
+                    value="{{ search_query }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Department
+                </label>
+
+                <select
+                    name="department"
+                    class="form-control"
+                >
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    {% for department in departments %}
+
+                        <option
+                            value="{{ department }}"
+                            {% if selected_department == department %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ department }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Course
+                </label>
+
+                <select
+                    name="course"
+                    class="form-control"
+                >
+
+                    <option value="">
+                        All Courses
+                    </option>
+
+                    {% for course in courses %}
+
+                        <option
+                            value="{{ course }}"
+                            {% if selected_course == course %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ course }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Graduation Year
+                </label>
+
+                <select
+                    name="year"
+                    class="form-control"
+                >
+
+                    <option value="">
+                        All Years
+                    </option>
+
+                    {% for year in graduation_years %}
+
+                        <option
+                            value="{{ year }}"
+                            {% if selected_year == year|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ year }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Company
+                </label>
+
+                <select
+                    name="company"
+                    class="form-control"
+                >
+
+                    <option value="">
+                        All Companies
+                    </option>
+
+                    {% for company in companies %}
+
+                        <option
+                            value="{{ company }}"
+                            {% if selected_company == company %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ company }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="filter-actions">
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                🔍 Apply Filters
+            </button>
+
+            <a
+                href="{% url 'placement_history' %}"
+                class="btn btn-secondary"
+            >
+                Reset
+            </a>
+
+        </div>
+
+    </form>
+
+
+    {% if filters_active %}
+
+        <div class="filter-status">
+
+            Showing filtered placement history.
+
+            <strong>
+                {{ total_placement_records }}
+            </strong>
+
+            record{{ total_placement_records|pluralize }}
+            found.
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- =========================
+     PLACEMENT RECORDS
+========================== -->
+
+<section class="section">
+
+    <div class="section-header">
+
+        <h2>Student Placement Records</h2>
+
+        <p>
+            Complete list of selected applications matching
+            the current search and filters.
+        </p>
+
+    </div>
+
+
+    {% if placements %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Department</th>
+                        <th>Graduation Year</th>
+                        <th>Company</th>
+                        <th>Job Role</th>
+                        <th>Package / Salary</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for placement in placements %}
+
+                        <tr>
+
+                            <td>
+
+                                <div class="student-name">
+                                    {{ placement.student.name }}
+                                </div>
+
+                                <div class="prn">
+                                    PRN:
+                                    {{ placement.student.prn }}
+                                </div>
+
+                            </td>
+
+
+                            <td>
+                                {{ placement.student.course }}
+                            </td>
+
+
+                            <td>
+                                {{ placement.student.department }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="year-badge">
+                                    {{ placement.student.graduation_year }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="company-name">
+                                    {{ placement.job.company_name }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                {{ placement.job.job_title }}
+                            </td>
+
+
+                            <td>
+
+                                {% if placement.job.salary %}
+
+                                    {{ placement.job.salary }}
+
+                                {% else %}
+
+                                    Not specified
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+                                {{ placement.applied_at|date:"d M Y" }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="status-badge">
+                                    ✓ Selected
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                📜
+            </div>
+
+            <h3>
+                No Placement Records Found
+            </h3>
+
+            <p>
+
+                {% if filters_active %}
+
+                    No selected students match the current
+                    search or filters. Try resetting the filters.
+
+                {% else %}
+
+                    Placement history will automatically appear
+                    here when a student's application status
+                    becomes Selected.
+
+                {% endif %}
+
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- =========================
+     HISTORICAL REPORTS
+========================== -->
+
+<section class="section">
+
+    <div class="section-header">
+
+        <h2>Historical Placement Summary</h2>
+
+        <p>
+            Placement history grouped by graduation year,
+            department and company.
+        </p>
+
+    </div>
+
+
+    <div class="report-grid">
+
+
+        <!-- YEAR REPORT -->
+
+        <div class="report-card">
+
+            <div class="report-card-header">
+                <h3>📅 Graduation Year</h3>
+            </div>
+
+            <div class="report-card-body">
+
+                {% for item in year_summary %}
+
+                    <div class="report-row">
+
+                        <div class="report-row-title">
+                            {{ item.year }}
+                        </div>
+
+                        <div class="report-row-stats">
+
+                            <span>
+                                Students:
+                                {{ item.placed_students }}
+                            </span>
+
+                            <span>
+                                Records:
+                                {{ item.placement_records }}
+                            </span>
+
+                            <span>
+                                Companies:
+                                {{ item.companies }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            No year-wise placement history yet.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- DEPARTMENT REPORT -->
+
+        <div class="report-card">
+
+            <div class="report-card-header">
+                <h3>🏫 Department</h3>
+            </div>
+
+            <div class="report-card-body">
+
+                {% for item in department_summary %}
+
+                    <div class="report-row">
+
+                        <div class="report-row-title">
+                            {{ item.department }}
+                        </div>
+
+                        <div class="report-row-stats">
+
+                            <span>
+                                Students:
+                                {{ item.placed_students }}
+                            </span>
+
+                            <span>
+                                Records:
+                                {{ item.placement_records }}
+                            </span>
+
+                            <span>
+                                Companies:
+                                {{ item.companies }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            No department placement history yet.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- COMPANY REPORT -->
+
+        <div class="report-card">
+
+            <div class="report-card-header">
+                <h3>🏢 Company</h3>
+            </div>
+
+            <div class="report-card-body">
+
+                {% for item in company_summary %}
+
+                    <div class="report-row">
+
+                        <div class="report-row-title">
+                            {{ item.company }}
+                        </div>
+
+                        <div class="report-row-stats">
+
+                            <span>
+                                Students:
+                                {{ item.placed_students }}
+                            </span>
+
+                            <span>
+                                Records:
+                                {{ item.placement_records }}
+                            </span>
+
+                            <span>
+                                Jobs:
+                                {{ item.jobs }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            No company placement history yet.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="footer">
+
+    Smart College Placement Platform |
+    Deogiri College Placement History
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ title }} | Deogiri College Placement Administration
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'placement_student/css/admin_custom.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            Deogiri College Placement Administration
+        </a>
+    </h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

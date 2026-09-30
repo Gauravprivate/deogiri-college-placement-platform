@@ -1,0 +1,330 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}Reports & Export | College Admin{% endblock %}
+
+{% block reports_active %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    .reports-container {
+        width: 100%;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .top-bar h2 {
+        margin: 0;
+        color: #1f2937;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        background: #374151;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .back-btn:hover {
+        background: #1f2937;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 10px;
+        padding: 22px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid #1e3a8a;
+    }
+
+    .summary-card h3 {
+        margin: 0 0 10px;
+        font-size: 15px;
+        color: #6b7280;
+    }
+
+    .summary-card .number {
+        font-size: 30px;
+        font-weight: bold;
+        color: #1e3a8a;
+    }
+
+    .section-title {
+        margin: 10px 0 18px;
+    }
+
+    .section-title h2 {
+        margin: 0 0 5px;
+        color: #1f2937;
+    }
+
+    .section-title p {
+        margin: 0;
+        color: #6b7280;
+    }
+
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .report-card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .report-card h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #111827;
+    }
+
+    .report-card p {
+        color: #6b7280;
+        line-height: 1.6;
+        min-height: 50px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #16a34a;
+        color: white;
+        padding: 11px 18px;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 8px;
+    }
+
+    .download-btn:hover {
+        background: #15803d;
+    }
+
+    .file-type {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 5px 8px;
+        background: #dcfce7;
+        color: #166534;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .info-box {
+        margin-top: 30px;
+        background: #eff6ff;
+        border-left: 4px solid #2563eb;
+        padding: 16px 20px;
+        border-radius: 6px;
+        color: #1e3a8a;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .report-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .top-bar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-card {
+            padding: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="reports-container">
+
+    <div class="top-bar">
+        <div>
+            <h2>Placement Reports</h2>
+        </div>
+
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+            <h3>Total Students</h3>
+            <div class="number">
+                {{ total_students }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <h3>Total Jobs</h3>
+            <div class="number">
+                {{ total_jobs }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <h3>Total Applications</h3>
+            <div class="number">
+                {{ total_applications }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <h3>Selected Students</h3>
+            <div class="number">
+                {{ selected_students }}
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- EXPORT REPORTS -->
+
+    <div class="section-title">
+        <h2>Download Reports</h2>
+
+        <p>
+            Export placement information for college records
+            and analysis.
+        </p>
+    </div>
+
+
+    <div class="report-grid">
+
+        <!-- Students Report -->
+
+        <div class="report-card">
+
+            <h3>Students Report</h3>
+
+            <p>
+                Download complete student information including
+                PRN, course, department, graduation year,
+                contact information and skills.
+            </p>
+
+            <a href="{% url 'export_students_csv' %}"
+               class="download-btn">
+                Download Students Report
+            </a>
+
+            <span class="file-type">CSV</span>
+
+        </div>
+
+
+        <!-- Applications Report -->
+
+        <div class="report-card">
+
+            <h3>Applications Report</h3>
+
+            <p>
+                Download all placement applications with student,
+                company, job and current application status details.
+            </p>
+
+            <a href="{% url 'export_applications_csv' %}"
+               class="download-btn">
+                Download Applications Report
+            </a>
+
+            <span class="file-type">CSV</span>
+
+        </div>
+
+
+        <!-- Selected Students -->
+
+        <div class="report-card">
+
+            <h3>Selected Students Report</h3>
+
+            <p>
+                Download the list of students whose placement
+                application status is marked as Selected.
+            </p>
+
+            <a href="{% url 'export_selected_students_csv' %}"
+               class="download-btn">
+                Download Selected Students
+            </a>
+
+            <span class="file-type">CSV</span>
+
+        </div>
+
+
+        <!-- Jobs Report -->
+
+        <div class="report-card">
+
+            <h3>Jobs Report</h3>
+
+            <p>
+                Download all placement jobs including company,
+                job title, eligibility, salary, skills,
+                location and application deadline.
+            </p>
+
+            <a href="{% url 'export_jobs_csv' %}"
+               class="download-btn">
+                Download Jobs Report
+            </a>
+
+            <span class="file-type">CSV</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="info-box">
+        <strong>Note:</strong>
+        CSV reports can be opened directly in Microsoft Excel,
+        Google Sheets or other spreadsheet applications.
+    </div>
+
+</div>
+
+{% endblock %}

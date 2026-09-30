@@ -1,0 +1,523 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | Deogiri College</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff7fb, #fce7f3);
+            padding: 0;
+        }
+
+        /* =========================
+           COLLEGE BANNER
+        ========================= */
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* =========================
+           LOGIN CONTAINER
+        ========================= */
+
+        .login-container {
+            width: 430px;
+            max-width: calc(100% - 36px);
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(74, 26, 107, 0.12);
+            border: 1px solid #eadde8;
+            margin: 42px auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .login-header {
+            background: linear-gradient(135deg, #4a1a6b, #c8107c);
+            color: white;
+            text-align: center;
+            padding: 32px 25px;
+        }
+
+        .college-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .login-header h1 {
+            font-size: 24px;
+            margin-bottom: 7px;
+        }
+
+        .login-header p {
+            font-size: 13px;
+            opacity: 0.88;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .login-form {
+            padding: 32px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-title h2 {
+            color: #4a1a6b;
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .form-title p {
+            color: #6f6175;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+            background: #fff0f0;
+            color: #c62828;
+            border: 1px solid #ffd4d4;
+            padding: 11px 13px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* =========================
+           FORM GROUP
+        ========================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d1738;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: #6f6175;
+            pointer-events: none;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 46px;
+            padding: 0 48px 0 40px;
+            border: 1px solid #eadde8;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            color: #2d1738;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: #9b8da0;
+        }
+
+        .form-group input:focus {
+            border-color: #c8107c;
+            box-shadow: 0 0 0 3px rgba(200, 16, 124, 0.08);
+        }
+
+        /* =========================
+           PASSWORD SHOW / HIDE
+        ========================= */
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            color: #6f6175;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            color: #c8107c;
+            background: #fff7fb;
+        }
+
+        .password-toggle:focus {
+            outline: 2px solid rgba(200, 16, 124, 0.20);
+            outline-offset: 1px;
+        }
+
+        .password-toggle i {
+            font-size: 15px;
+        }
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        .login-button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: linear-gradient(135deg, #c8107c, #e8381f);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(200, 16, 124, 0.18);
+        }
+
+        .login-button:hover {
+            background: linear-gradient(135deg, #4a1a6b, #c8107c);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           SECURITY NOTE
+        ========================= */
+
+        .security-note {
+            margin-top: 20px;
+            padding: 11px 13px;
+            background: #fff7fb;
+            border: 1px solid #eadde8;
+            border-radius: 7px;
+            text-align: center;
+            color: #6f6175;
+            font-size: 12px;
+        }
+
+        /* =========================
+           BACK HOME
+        ========================= */
+
+        .back-home {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .back-home a {
+            color: #c8107c;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .back-home a:hover {
+            color: #4a1a6b;
+            text-decoration: underline;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #9b8da0;
+            font-size: 11px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+            .login-container {
+                border-radius: 12px;
+                margin: 25px auto;
+            }
+
+            .login-header {
+                padding: 27px 20px;
+            }
+
+            .college-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 25px;
+            }
+
+            .login-header h1 {
+                font-size: 21px;
+            }
+
+            .login-form {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         COLLEGE BANNER
+    ========================== -->
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College Banner"
+        class="college-banner"
+    >
+
+    <!-- =========================
+         LOGIN CONTAINER
+    ========================== -->
+
+    <div class="login-container">
+
+        <!-- HEADER -->
+
+        <div class="login-header">
+
+            <div class="college-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+
+            <h1>
+                Deogiri College
+            </h1>
+
+            <p>
+                College Placement Management System
+            </p>
+
+        </div>
+
+        <!-- FORM -->
+
+        <div class="login-form">
+
+            <div class="form-title">
+
+                <h2>
+                    Administrator Login
+                </h2>
+
+                <p>
+                    Sign in to access the college placement administration portal.
+                </p>
+
+            </div>
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+                <div class="error-message">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Admin Username
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter admin username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter admin password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            aria-label="Show password"
+                            title="Show password"
+                        >
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- LOGIN -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Login to Admin Portal
+                </button>
+
+            </form>
+
+            <!-- SECURITY -->
+
+            <div class="security-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                Authorized college administrators only
+            </div>
+
+            <!-- BACK -->
+
+            <div class="back-home">
+
+                <a href="{% url 'home' %}">
+                    ← Back to College Home
+                </a>
+
+            </div>
+
+            <div class="footer">
+                Deogiri College Placement Platform
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+         PASSWORD SHOW / HIDE
+    ========================== -->
+
+    <script>
+
+        const passwordInput = document.getElementById("password");
+        const passwordToggle = document.getElementById("passwordToggle");
+        const toggleIcon = passwordToggle.querySelector("i");
+
+        passwordToggle.addEventListener("click", function () {
+
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+
+            toggleIcon.classList.toggle("fa-eye", !isPassword);
+            toggleIcon.classList.toggle("fa-eye-slash", isPassword);
+
+            passwordToggle.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+
+            passwordToggle.setAttribute(
+                "title",
+                isPassword ? "Hide password" : "Show password"
+            );
+
+        });
+
+    </script>
+
+</body>
+</html>

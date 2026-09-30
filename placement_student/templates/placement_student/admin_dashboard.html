@@ -1,0 +1,660 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}
+College Placement Admin | Deogiri College
+{% endblock %}
+
+
+{% block dashboard_active %}
+active
+{% endblock %}
+
+
+{% block extra_css %}
+
+/* =========================
+   WELCOME CARD
+========================= */
+
+.welcome-card {
+    background: linear-gradient(135deg, #ffffff, #f8faff);
+    border-radius: 14px;
+    padding: 27px 30px;
+    margin-bottom: 28px;
+    border: 1px solid #e5e7eb;
+    border-left: 5px solid #1e3a8a;
+    box-shadow: 0 5px 18px rgba(15,23,42,0.05);
+}
+
+.welcome-card h2 {
+    font-size: 21px;
+    margin-bottom: 7px;
+    color: #111827;
+}
+
+.welcome-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 19px;
+    color: #111827;
+}
+
+.section-line {
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+    margin-left: 18px;
+}
+
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 21px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 5px 18px rgba(15,23,42,0.05);
+    transition: 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(15,23,42,0.08);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 4px;
+}
+
+
+/* =========================
+   CONTENT PANELS
+========================= */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 13px;
+    padding: 24px;
+    box-shadow: 0 5px 18px rgba(15,23,42,0.05);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    color: #111827;
+}
+
+.panel-label {
+    color: #64748b;
+    font-size: 11px;
+    background: #f1f5f9;
+    padding: 5px 9px;
+    border-radius: 5px;
+}
+
+.job-item,
+.application-item {
+    padding: 16px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.job-item:first-of-type,
+.application-item:first-of-type {
+    padding-top: 0;
+}
+
+.job-item:last-child,
+.application-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.job-title,
+.student-name {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.job-company,
+.application-job {
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.job-location {
+    color: #475569;
+    font-size: 12px;
+}
+
+.status {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+.empty {
+    color: #94a3b8;
+    font-size: 13px;
+    padding: 15px 0;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 900px) {
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .welcome-card {
+        padding: 21px;
+    }
+
+}
+
+@media (max-width: 420px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+}
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+    <div class="topbar-left">
+
+        <h1>Admin Dashboard</h1>
+
+        <p>
+            College Placement Management System
+        </p>
+
+    </div>
+
+    <div class="admin-badge">
+        🔐 Administrator
+    </div>
+
+</div>
+
+
+<!-- WELCOME -->
+
+<div class="welcome-card">
+
+    <h2>
+        Welcome to College Placement Administration
+    </h2>
+
+    <p>
+        Manage students, recruiters, job opportunities,
+        applications and placement activities from one centralized
+        administration panel.
+    </p>
+
+</div>
+
+
+<!-- PLACEMENT OVERVIEW -->
+
+<div class="section-heading">
+
+    <h2 class="section-title">
+        Placement Overview
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Total Students
+            </div>
+
+            <div class="stat-icon">
+                👨‍🎓
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ total_students }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Recruiters
+            </div>
+
+            <div class="stat-icon">
+                🏢
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ total_recruiters }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Jobs
+            </div>
+
+            <div class="stat-icon">
+                💼
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ total_jobs }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Applications
+            </div>
+
+            <div class="stat-icon">
+                📄
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ total_applications }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Selected
+            </div>
+
+            <div class="stat-icon">
+                🎯
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ selected_count }}
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- APPLICATION STATUS -->
+
+<div class="section-heading">
+
+    <h2 class="section-title">
+        Application Status
+    </h2>
+
+    <div class="section-line"></div>
+
+</div>
+
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Applied
+            </div>
+
+            <div class="stat-icon">
+                📝
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ applied_count }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Shortlisted
+            </div>
+
+            <div class="stat-icon">
+                ⭐
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ shortlisted_count }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Interview
+            </div>
+
+            <div class="stat-icon">
+                🎤
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ interview_count }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Selected
+            </div>
+
+            <div class="stat-icon">
+                ✅
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ selected_count }}
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-label">
+                Rejected
+            </div>
+
+            <div class="stat-icon">
+                ❌
+            </div>
+
+        </div>
+
+        <div class="stat-number">
+            {{ rejected_count }}
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- RECENT DATA -->
+
+<div class="content-grid">
+
+
+    <!-- RECENT JOBS -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+                Recent Posted Jobs
+            </h2>
+
+            <span class="panel-label">
+                Latest
+            </span>
+
+        </div>
+
+
+        {% for job in recent_jobs %}
+
+        <div class="job-item">
+
+            <div class="job-title">
+                {{ job.job_title }}
+            </div>
+
+            <div class="job-company">
+                {{ job.company_name }}
+            </div>
+
+            <div class="job-location">
+                📍 {{ job.location }}
+                ·
+                💰 {{ job.salary }}
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty">
+            No jobs available.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- RECENT APPLICATIONS -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+                Recent Applications
+            </h2>
+
+            <span class="panel-label">
+                Latest
+            </span>
+
+        </div>
+
+
+        {% for application in recent_applications %}
+
+        <div class="application-item">
+
+            <div class="student-name">
+                {{ application.student.name }}
+            </div>
+
+            <div class="application-job">
+
+                {{ application.job.job_title }}
+
+                ·
+
+                {{ application.job.company_name }}
+
+            </div>
+
+            <span class="status">
+
+                {{ application.status }}
+
+            </span>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty">
+            No applications available.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+</div>
+
+{% endblock %}

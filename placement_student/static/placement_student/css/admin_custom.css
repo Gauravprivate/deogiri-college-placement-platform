@@ -1,0 +1,317 @@
+/* =========================================
+   Deogiri College Placement Admin
+   Custom Django Admin Styling
+   ========================================= */
+
+:root {
+    --primary: #0b3d91;
+    --primary-dark: #082f70;
+    --light-bg: #f4f7fb;
+    --border: #dfe5ee;
+    --text: #263238;
+}
+
+/* =========================
+   BODY
+   ========================= */
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--light-bg);
+    color: var(--text);
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+#header {
+    background: var(--primary);
+    color: white;
+    padding: 14px 24px;
+}
+
+#branding h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+#branding h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+#user-tools {
+    font-size: 13px;
+}
+
+#user-tools a {
+    color: white;
+}
+
+
+/* =========================
+   BREADCRUMBS
+   ========================= */
+
+div.breadcrumbs {
+    background: white;
+    color: #555;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+}
+
+div.breadcrumbs a {
+    color: var(--primary);
+}
+
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+
+#content {
+    padding: 24px;
+}
+
+
+/* =========================
+   MODULE / CARDS
+   ========================= */
+
+.module {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.module h2,
+.module caption {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+}
+
+
+/* =========================
+   LINKS
+   ========================= */
+
+a:link,
+a:visited {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 16px;
+    cursor: pointer;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover {
+    background: var(--primary-dark);
+}
+
+
+/* =========================
+   ADD BUTTON
+   ========================= */
+
+.object-tools a {
+    background: var(--primary);
+    color: white;
+    border-radius: 6px;
+}
+
+.object-tools a:hover {
+    background: var(--primary-dark);
+}
+
+
+/* =========================
+   TABLE
+   ========================= */
+
+#result_list {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+}
+
+#result_list thead th {
+    background: #eef3f9;
+    color: var(--text);
+    font-weight: 600;
+}
+
+#result_list tbody tr:hover {
+    background: #f7faff;
+}
+
+
+/* =========================
+   FORM FIELDS
+   ========================= */
+
+input,
+textarea,
+select {
+    border-radius: 6px !important;
+    border: 1px solid #cfd7e3 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px rgba(11, 61, 145, 0.12);
+}
+
+
+/* =========================
+   FILTER SIDEBAR
+   ========================= */
+
+#changelist-filter {
+    border-left: 1px solid var(--border);
+    background: white;
+}
+
+#changelist-filter h2 {
+    background: var(--primary);
+    color: white;
+}
+
+#changelist-filter h3 {
+    color: var(--primary);
+}
+
+
+/* =========================
+   SEARCH
+   ========================= */
+
+#searchbar {
+    border-radius: 6px;
+}
+
+
+/* =========================
+   MESSAGES
+   ========================= */
+
+.messagelist li {
+    border-radius: 6px;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    #content {
+        padding: 14px;
+    }
+
+    #header {
+        padding: 12px 16px;
+    }
+
+    #branding h1 {
+        font-size: 17px;
+    }
+
+    #result_list {
+        overflow-x: auto;
+    }
+}
+
+/* =========================================
+   ADMIN HOME DASHBOARD
+   ========================================= */
+
+/* App section headings */
+#content-main .module caption,
+#content-main .module h2 {
+    background: #0b3d91;
+    color: white;
+}
+
+/* Dashboard model tables */
+#content-main .module {
+    background: white;
+    border: 1px solid #dfe5ee;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Table headers */
+#content-main .module table thead th {
+    background: #eef3f9;
+    color: #263238;
+}
+
+/* Model names */
+#content-main .module table th a {
+    color: #0b3d91;
+    font-weight: 600;
+}
+
+/* Add / Change links */
+#content-main .module table td a {
+    color: #0b3d91;
+}
+
+/* Hover effect */
+#content-main .module table tr:hover {
+    background: #f7faff;
+}
+
+/* Recent Actions */
+#content-related {
+    background: white;
+    border: 1px solid #dfe5ee;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+#content-related h2 {
+    color: #0b3d91;
+    font-size: 18px;
+}
+
+#content-related h3 {
+    color: #555;
+}
+
+/* Recent action links */
+#content-related a {
+    color: #0b3d91;
+}

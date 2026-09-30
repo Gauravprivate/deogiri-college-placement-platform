@@ -1,0 +1,519 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Question | Recruiter Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #0f2f67;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1d4ed8;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 7px;
+            color: #0f2f67;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .form-card {
+            max-width: 900px;
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .test-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            padding: 15px;
+            border-radius: 7px;
+            margin-bottom: 22px;
+            line-height: 1.6;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 11px 12px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .section-title {
+            color: #0f2f67;
+            margin: 5px 0 18px;
+            font-size: 19px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .answer-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 6px;
+            padding: 11px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .primary-btn {
+            background: #0f2f67;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .secondary-btn:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin: 3px;
+            }
+
+            .main {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .main {
+                padding: 15px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .options-grid,
+            .answer-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img
+        src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+        alt="Deogiri College"
+        class="college-banner"
+    >
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <h2>Recruiter Portal</h2>
+
+            <a href="{% url 'recruiter_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'post_job' %}">
+                Post New Job
+            </a>
+
+            <a href="{% url 'my_jobs' %}">
+                My Posted Jobs
+            </a>
+
+            <a href="{% url 'recruiter_interviews' %}">
+                Interviews
+            </a>
+
+            <a href="{% url 'recruiter_tests' %}" class="active">
+                Online Tests
+            </a>
+
+            <a href="{% url 'recruiter_logout' %}">
+                Logout
+            </a>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="page-header">
+
+                <h1>Edit MCQ Question</h1>
+
+                <p>
+                    Update the question, options, correct answer,
+                    or marks.
+                </p>
+
+            </div>
+
+            <div class="form-card">
+
+                <div class="test-info">
+                    <strong>Test:</strong>
+                    {{ online_test.title }}
+                    <br>
+
+                    <strong>Job:</strong>
+                    {{ online_test.job.job_title }} -
+                    {{ online_test.job.company_name }}
+                </div>
+
+                {% if error %}
+                    <div class="error-box">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+
+                        <label for="question_text">
+                            Question *
+                        </label>
+
+                        <textarea
+                            id="question_text"
+                            name="question_text"
+                            required
+                        >{% if form_data.question_text %}{{ form_data.question_text }}{% else %}{{ question.question_text }}{% endif %}</textarea>
+
+                    </div>
+
+                    <h2 class="section-title">
+                        Answer Options
+                    </h2>
+
+                    <div class="options-grid">
+
+                        <div class="form-group">
+
+                            <label for="option_a">
+                                Option A *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="option_a"
+                                name="option_a"
+                                value="{% if form_data.option_a %}{{ form_data.option_a }}{% else %}{{ question.option_a }}{% endif %}"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="option_b">
+                                Option B *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="option_b"
+                                name="option_b"
+                                value="{% if form_data.option_b %}{{ form_data.option_b }}{% else %}{{ question.option_b }}{% endif %}"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="option_c">
+                                Option C *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="option_c"
+                                name="option_c"
+                                value="{% if form_data.option_c %}{{ form_data.option_c }}{% else %}{{ question.option_c }}{% endif %}"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="option_d">
+                                Option D *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="option_d"
+                                name="option_d"
+                                value="{% if form_data.option_d %}{{ form_data.option_d }}{% else %}{{ question.option_d }}{% endif %}"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="answer-row">
+
+                        <div class="form-group">
+
+                            <label for="correct_answer">
+                                Correct Answer *
+                            </label>
+
+                            <select
+                                id="correct_answer"
+                                name="correct_answer"
+                                required
+                            >
+
+                                <option
+                                    value="A"
+                                    {% if form_data.correct_answer == "A" or not form_data.correct_answer and question.correct_answer == "A" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Option A
+                                </option>
+
+                                <option
+                                    value="B"
+                                    {% if form_data.correct_answer == "B" or not form_data.correct_answer and question.correct_answer == "B" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Option B
+                                </option>
+
+                                <option
+                                    value="C"
+                                    {% if form_data.correct_answer == "C" or not form_data.correct_answer and question.correct_answer == "C" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Option C
+                                </option>
+
+                                <option
+                                    value="D"
+                                    {% if form_data.correct_answer == "D" or not form_data.correct_answer and question.correct_answer == "D" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Option D
+                                </option>
+
+                            </select>
+
+                            <span class="help-text">
+                                The server uses this answer for
+                                automatic scoring.
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="marks">
+                                Marks *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="marks"
+                                name="marks"
+                                min="1"
+                                value="{% if form_data.marks %}{{ form_data.marks }}{% else %}{{ question.marks }}{% endif %}"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="btn primary-btn"
+                        >
+                            Save Question
+                        </button>
+
+                        <a
+                            href="{% url 'manage_test_questions' online_test.id %}"
+                            class="btn secondary-btn"
+                        >
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

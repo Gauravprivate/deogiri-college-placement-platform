@@ -1,0 +1,353 @@
+{% extends "placement_student/base_admin.html" %}
+
+{% block title %}
+Add Student | College Placement Portal
+{% endblock %}
+
+{% block students_active %}
+active
+{% endblock %}
+
+{% block extra_css %}
+
+.add-student-container {
+    max-width: 900px;
+    margin: 35px auto;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    margin-bottom: 8px;
+    font-size: 28px;
+    color: #123c73;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 22px;
+    font-size: 14px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full {
+    grid-column: span 2;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.form-group input {
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    width: 100%;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.password-help {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.buttons {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+}
+
+.buttons button,
+.back-btn {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.buttons button {
+    background: #123c73;
+    color: white;
+}
+
+.buttons button:hover {
+    background: #0f3260;
+}
+
+.back-btn {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.back-btn:hover {
+    background: #d1d5db;
+}
+
+@media (max-width: 700px) {
+
+    .add-student-container {
+        margin: 20px auto;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: span 1;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button,
+    .back-btn {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="add-student-container">
+
+    <div class="card">
+
+        <h1 class="title">
+            Add Student
+        </h1>
+
+        <p class="subtitle">
+            Add a new student to the college placement database
+            and create their placement portal login credentials.
+        </p>
+
+        {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <!-- PRN -->
+                <div class="form-group">
+
+                    <label for="prn">
+                        PRN
+                    </label>
+
+                    <input
+                        type="text"
+                        id="prn"
+                        name="prn"
+                        value="{{ request.POST.prn }}"
+                        placeholder="Enter student PRN"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- STUDENT NAME -->
+                <div class="form-group">
+
+                    <label for="name">
+                        Student Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ request.POST.name }}"
+                        placeholder="Enter student name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ request.POST.email }}"
+                        placeholder="Enter student email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="{{ request.POST.phone }}"
+                        placeholder="Enter phone number"
+                        autocomplete="tel"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- COURSE -->
+                <div class="form-group">
+
+                    <label for="course">
+                        Course
+                    </label>
+
+                    <input
+                        type="text"
+                        id="course"
+                        name="course"
+                        value="{{ request.POST.course }}"
+                        placeholder="Example: MCS"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+                <div class="form-group">
+
+                    <label for="department">
+                        Department
+                    </label>
+
+                    <input
+                        type="text"
+                        id="department"
+                        name="department"
+                        value="{{ request.POST.department }}"
+                        placeholder="Example: Computer Science"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="form-group full">
+
+                    <label for="password">
+                        Student Login Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create student login password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <div class="password-help">
+                        Minimum 8 characters. The student will use this
+                        password together with their PRN to log in.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button type="submit">
+                    Add Student
+                </button>
+
+                <a
+                    href="{% url 'admin_dashboard' %}"
+                    class="back-btn"
+                >
+                    Back to Dashboard
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

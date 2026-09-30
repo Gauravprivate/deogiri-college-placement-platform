@@ -1,0 +1,1246 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Resume | Deogiri College</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .college-header {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .college-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 110px);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            padding: 25px 15px;
+            flex-shrink: 0;
+        }
+
+        .student-box {
+            background: #f1f6ff;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 25px;
+            border: 1px solid #dbe7ff;
+        }
+
+        .student-box h3 {
+            margin: 0 0 8px;
+            color: #0d6efd;
+            font-size: 18px;
+        }
+
+        .student-box p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin: 20px 12px 10px;
+            letter-spacing: 0.6px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #374151;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #f1f6ff;
+            color: #0d6efd;
+        }
+
+        .sidebar a.active {
+            background: #0d6efd;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* NOTIFICATIONS */
+
+        .notification-link {
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .notification-badge {
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .logout-link {
+            color: #dc3545 !important;
+        }
+
+        .logout-link:hover {
+            background: #fff1f2 !important;
+            color: #dc3545 !important;
+        }
+
+        /* MAIN */
+
+        .main-content {
+            flex: 1;
+            padding: 35px;
+            overflow-x: hidden;
+            min-width: 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .edit-resume-btn {
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            background: #198754;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .edit-resume-btn:hover {
+            background: #157347;
+        }
+
+        .print-button {
+            border: none;
+            background: #0d6efd;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .print-button:hover {
+            background: #0b5ed7;
+        }
+
+        /* UPLOAD RESUME */
+
+        .upload-resume-section {
+            max-width: 950px;
+            margin-bottom: 25px;
+            background: #ffffff;
+            border: 1px solid #dbe7ff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        .upload-resume-header {
+            margin-bottom: 20px;
+        }
+
+        .upload-resume-header h2 {
+            margin: 0 0 7px;
+            color: #111827;
+            font-size: 20px;
+        }
+
+        .upload-resume-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .upload-error {
+            margin-bottom: 18px;
+            padding: 13px 15px;
+            background: #fff0f0;
+            border: 1px solid #f0b8b8;
+            color: #a52828;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .upload-form {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .file-input {
+            flex: 1;
+            min-width: 230px;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #374151;
+        }
+
+        .upload-btn {
+            border: none;
+            background: #0d6efd;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #0b5ed7;
+        }
+
+        .uploaded-resume-box {
+            margin-top: 20px;
+            padding: 17px;
+            background: #ecfdf3;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+        }
+
+        .uploaded-resume-box strong {
+            display: block;
+            color: #166534;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .uploaded-resume-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .view-uploaded-resume {
+            display: inline-block;
+            text-decoration: none;
+            background: #198754;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .view-uploaded-resume:hover {
+            background: #157347;
+        }
+
+        .resume-status {
+            color: #166534;
+            font-size: 13px;
+        }
+
+        .no-uploaded-resume {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* RESUME */
+
+        .resume-container {
+            max-width: 950px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+        }
+
+        .resume-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 25px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #eef2f7;
+        }
+
+        .resume-name {
+            margin: 0 0 8px;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .resume-role {
+            margin: 0;
+            color: #0d6efd;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .resume-contact {
+            text-align: right;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .resume-section {
+            margin-top: 30px;
+        }
+
+        .resume-section h2 {
+            margin: 0 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eef2f7;
+            color: #0d6efd;
+            font-size: 19px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #edf0f4;
+            border-radius: 10px;
+            padding: 15px 17px;
+        }
+
+        .info-label {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.4px;
+        }
+
+        .info-value {
+            color: #111827;
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .education-card {
+            background: #f8fafc;
+            border-left: 4px solid #0d6efd;
+            border-radius: 8px;
+            padding: 18px 20px;
+        }
+
+        .education-card h3 {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 17px;
+        }
+
+        .education-card p {
+            margin: 4px 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .text-content {
+            background: #f8fafc;
+            border: 1px solid #edf0f4;
+            border-radius: 10px;
+            padding: 17px;
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        .empty-content {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .resume-note {
+            margin-top: 30px;
+            padding: 15px 18px;
+            background: #f1f6ff;
+            border: 1px solid #dbe7ff;
+            border-radius: 10px;
+            color: #315b9b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-content {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                padding: 15px;
+            }
+
+            .student-box {
+                margin-bottom: 15px;
+            }
+
+            .menu-title {
+                margin-top: 12px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            .sidebar .notification-link {
+                display: inline-flex !important;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .header-buttons {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .edit-resume-btn,
+            .print-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .upload-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .file-input,
+            .upload-btn {
+                width: 100%;
+            }
+
+            .resume-container {
+                padding: 22px;
+            }
+
+            .resume-header {
+                flex-direction: column;
+            }
+
+            .resume-contact {
+                text-align: left;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PRINT */
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            .college-header,
+            .sidebar,
+            .page-header,
+            .upload-resume-section,
+            .resume-note,
+            .edit-resume-btn,
+            .print-button {
+                display: none !important;
+            }
+
+            .layout {
+                display: block;
+                min-height: auto;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .resume-container {
+                max-width: none;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            .resume-header {
+                padding-bottom: 18px;
+            }
+
+            .resume-section {
+                margin-top: 22px;
+            }
+
+            .info-card,
+            .education-card,
+            .text-content {
+                background: white;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- COLLEGE HEADER -->
+
+    <div class="college-header">
+
+        <img
+            src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
+            alt="Deogiri College"
+            class="college-banner"
+        >
+
+    </div>
+
+
+    <div class="layout">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+
+            <div class="student-box">
+
+                <h3>
+                    Student Portal
+                </h3>
+
+                <p>
+                    PRN: {{ request.session.student_prn }}
+                </p>
+
+            </div>
+
+
+            <div class="menu-title">
+                Main Menu
+            </div>
+
+
+            <a href="{% url 'dashboard' %}">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="{% url 'my_profile' %}">
+                👤 My Profile
+            </a>
+
+
+            <a href="{% url 'available_jobs' %}">
+                💼 Available Jobs
+            </a>
+
+
+            <a href="{% url 'my_applications' %}">
+    📄 My Applications
+</a>
+
+<a href="{% url 'student_interviews' %}">
+    📅 Interviews
+</a>
+
+<a href="{% url 'student_tests' %}">
+    📝 Online Tests
+</a>
+
+<a href="{% url 'student_feedback' %}">
+    ⭐ Feedback
+</a>
+
+<a
+    href="{% url 'resume' %}"
+    class="active"
+>
+    📑 Resume
+</a>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <a
+                href="{% url 'student_notifications' %}"
+                class="notification-link"
+            >
+
+                <span>
+                    🔔 Notifications
+                </span>
+
+                {% if unread_notifications_count %}
+
+                    <span class="notification-badge">
+                        {{ unread_notifications_count }}
+                    </span>
+
+                {% endif %}
+
+            </a>
+
+
+            <div class="menu-title">
+                Account
+            </div>
+
+
+            <a
+                href="{% url 'logout_student' %}"
+                class="logout-link"
+            >
+                🚪 Logout
+            </a>
+
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+
+            <div class="page-header">
+
+
+                <div>
+
+                    <h1>
+                        My Resume
+                    </h1>
+
+                    <p>
+                        View, manage and upload your resume
+                        for placement opportunities.
+                    </p>
+
+                </div>
+
+
+                <div class="header-buttons">
+
+
+                    <a
+                        href="{% url 'edit_resume' %}"
+                        class="edit-resume-btn"
+                    >
+                        Edit Resume
+                    </a>
+
+
+                    <button
+                        class="print-button"
+                        onclick="window.print()"
+                    >
+                        Print / Save PDF
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- UPLOAD RESUME -->
+
+            <div class="upload-resume-section">
+
+
+                <div class="upload-resume-header">
+
+                    <h2>
+                        Upload Your Resume
+                    </h2>
+
+                    <p>
+                        Upload your personal resume in PDF format.
+                        Recruiters will be able to view this resume
+                        when you apply for their job.
+                    </p>
+
+                </div>
+
+
+                {% if upload_error %}
+
+                    <div class="upload-error">
+                        {{ upload_error }}
+                    </div>
+
+                {% endif %}
+
+
+                <form
+                    method="POST"
+                    action="{% url 'upload_resume' %}"
+                    enctype="multipart/form-data"
+                    class="upload-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    <input
+                        type="file"
+                        name="uploaded_resume"
+                        accept=".pdf,application/pdf"
+                        required
+                        class="file-input"
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="upload-btn"
+                    >
+
+                        {% if resume.uploaded_resume %}
+
+                            Replace Resume
+
+                        {% else %}
+
+                            Upload Resume
+
+                        {% endif %}
+
+                    </button>
+
+                </form>
+
+
+                {% if resume.uploaded_resume %}
+
+
+                    <div class="uploaded-resume-box">
+
+
+                        <strong>
+                            ✓ Your resume has been uploaded successfully.
+                        </strong>
+
+
+                        <div class="uploaded-resume-actions">
+
+
+                            <a
+                                href="{{ resume.uploaded_resume.url }}"
+                                target="_blank"
+                                class="view-uploaded-resume"
+                            >
+                                View Uploaded Resume
+                            </a>
+
+
+                            <span class="resume-status">
+                                Ready for recruiters
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <div class="no-uploaded-resume">
+
+                        No personal PDF resume has been uploaded yet.
+
+                        Upload your resume so recruiters can view it
+                        after you apply for a placement opportunity.
+
+                    </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+            <!-- SYSTEM RESUME -->
+
+            <div class="resume-container">
+
+
+                <!-- RESUME HEADER -->
+
+                <div class="resume-header">
+
+
+                    <div>
+
+                        <h2 class="resume-name">
+                            {{ student.name }}
+                        </h2>
+
+                        <p class="resume-role">
+                            Student Placement Profile
+                        </p>
+
+                    </div>
+
+
+                    <div class="resume-contact">
+
+                        {{ student.email }}
+
+                        <br>
+
+                        {{ student.phone }}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- PERSONAL INFORMATION -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Personal Information
+                    </h2>
+
+
+                    <div class="info-grid">
+
+
+                        <div class="info-card">
+
+                            <span class="info-label">
+                                Full Name
+                            </span>
+
+                            <span class="info-value">
+                                {{ student.name }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span class="info-label">
+                                PRN
+                            </span>
+
+                            <span class="info-value">
+                                {{ student.prn }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span class="info-label">
+                                Email
+                            </span>
+
+                            <span class="info-value">
+                                {{ student.email }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <span class="info-label">
+                                Phone
+                            </span>
+
+                            <span class="info-value">
+                                {{ student.phone }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- EDUCATION -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Education
+                    </h2>
+
+
+                    <div class="education-card">
+
+
+                        <h3>
+                            {{ student.course }}
+                        </h3>
+
+
+                        <p>
+
+                            <strong>
+                                Department:
+                            </strong>
+
+                            {{ student.department }}
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Graduation Year:
+                            </strong>
+
+                            {{ student.graduation_year }}
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Student PRN:
+                            </strong>
+
+                            {{ student.prn }}
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- CAREER OBJECTIVE -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Career Objective
+                    </h2>
+
+
+                    <div class="text-content">
+
+
+                        {% if resume.career_objective %}
+
+                            {{ resume.career_objective }}
+
+                        {% else %}
+
+                            <span class="empty-content">
+                                No career objective added yet.
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- TECHNICAL SKILLS -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Technical Skills
+                    </h2>
+
+
+                    <div class="text-content">
+
+
+                        {% if resume.technical_skills %}
+
+                            {{ resume.technical_skills }}
+
+                        {% else %}
+
+                            <span class="empty-content">
+                                No technical skills added yet.
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- PROJECTS -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Projects
+                    </h2>
+
+
+                    <div class="text-content">
+
+
+                        {% if resume.projects %}
+
+                            {{ resume.projects }}
+
+                        {% else %}
+
+                            <span class="empty-content">
+                                No projects added yet.
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- CERTIFICATIONS -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Certifications
+                    </h2>
+
+
+                    <div class="text-content">
+
+
+                        {% if resume.certifications %}
+
+                            {{ resume.certifications }}
+
+                        {% else %}
+
+                            <span class="empty-content">
+                                No certifications added yet.
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ACHIEVEMENTS -->
+
+                <div class="resume-section">
+
+
+                    <h2>
+                        Achievements
+                    </h2>
+
+
+                    <div class="text-content">
+
+
+                        {% if resume.achievements %}
+
+                            {{ resume.achievements }}
+
+                        {% else %}
+
+                            <span class="empty-content">
+                                No achievements added yet.
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="resume-note">
+
+                    Your resume profile is based on the student
+                    information maintained by the college placement
+                    system.
+
+                    You can update your career information using
+                    the Edit Resume option.
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</body>
+
+</html>
