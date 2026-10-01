@@ -38,7 +38,7 @@ recruiter, _ = Recruiter.objects.update_or_create(
     defaults={
         "company_name": "TechNova",
         "recruiter_name": "Demo Recruiter",
-        "password": "demo123",
+        "password": make_password("demo123"),
         "company_website": "https://example.com",
         "company_description": "Demo company for the Deogiri College Placement Platform.",
         "company_address": "Pune, Maharashtra",
