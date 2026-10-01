@@ -31,3 +31,4 @@ Thumbs.db
 staticfiles/db_backup_before_render.sqlite3
 db_backup_before_render.sqlite3
 staticfiles/
+placement_demo_data.json
