@@ -249,6 +249,82 @@
         }
 
         /* =========================
+           DEMO ACCESS
+        ========================= */
+
+        .demo-access {
+            margin-top: 18px;
+            padding: 14px;
+            background: linear-gradient(
+                135deg,
+                #fff7fb,
+                #fdf0f8
+            );
+            border: 1px solid var(--border-light);
+            border-radius: 9px;
+        }
+
+        .demo-access-header {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 10px;
+        }
+
+        .demo-access-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--magenta)
+            );
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .demo-access-header strong {
+            color: var(--purple);
+            font-size: 13px;
+        }
+
+        .demo-access-header span {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-left: auto;
+        }
+
+        .demo-credential {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 10px;
+            margin-top: 7px;
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: 7px;
+        }
+
+        .demo-credential-label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .demo-credential-value {
+            color: var(--purple);
+            font-size: 12px;
+            font-weight: 700;
+            font-family: "Courier New", monospace;
+        }
+
+        /* =========================
            LOGIN BUTTON
         ========================= */
 
@@ -335,6 +411,7 @@
         ========================= */
 
         @media (max-width: 600px) {
+
             .college-banner {
                 width: 100%;
                 height: auto;
@@ -352,6 +429,16 @@
             .login-header h1 {
                 font-size: 23px;
             }
+
+            .demo-credential {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .demo-access-header span {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -363,12 +450,15 @@
     ========================== -->
 
     <div class="college-header">
+
         <img
             src="{% static 'placement_student/images/deogiri-banner.jpg' %}"
             alt="Deogiri College"
             class="college-banner"
         >
+
     </div>
+
 
     <!-- =========================
          LOGIN SECTION
@@ -396,14 +486,21 @@
 
             </div>
 
+
             <!-- ERROR MESSAGE -->
 
             {% if error %}
+
                 <div class="error-message">
+
                     <i class="fa-solid fa-triangle-exclamation"></i>
+
                     {{ error }}
+
                 </div>
+
             {% endif %}
+
 
             <!-- LOGIN FORM -->
 
@@ -414,13 +511,19 @@
 
                 {% csrf_token %}
 
+
                 <!-- EMAIL -->
 
                 <div class="form-group">
 
                     <label for="email">
+
                         Email
-                        <span class="required">*</span>
+
+                        <span class="required">
+                            *
+                        </span>
+
                     </label>
 
                     <div class="input-wrapper">
@@ -442,13 +545,19 @@
 
                 </div>
 
+
                 <!-- PASSWORD -->
 
                 <div class="form-group">
 
                     <label for="password">
+
                         Password
-                        <span class="required">*</span>
+
+                        <span class="required">
+                            *
+                        </span>
+
                     </label>
 
                     <div class="input-wrapper">
@@ -473,20 +582,27 @@
                             aria-label="Show password"
                             title="Show password"
                         >
+
                             <i class="fa-solid fa-eye"></i>
+
                         </button>
 
                     </div>
 
                 </div>
 
+
                 <!-- SECURITY / APPROVAL NOTE -->
 
                 <div class="security-note">
+
                     <i class="fa-solid fa-shield-halved"></i>
+
                     Only College Admin approved recruiter accounts
                     can access the Recruiter Portal.
+
                 </div>
+
 
                 <!-- LOGIN BUTTON -->
 
@@ -494,45 +610,110 @@
                     type="submit"
                     class="login-button"
                 >
+
                     Login to Recruiter Portal
+
                 </button>
 
             </form>
 
+
+            <!-- DEMO ACCESS -->
+
+            <div class="demo-access">
+
+                <div class="demo-access-header">
+
+                    <div class="demo-access-icon">
+
+                        <i class="fa-solid fa-flask"></i>
+
+                    </div>
+
+                    <strong>
+                        Demo Access
+                    </strong>
+
+                    <span>
+                        For project demonstration
+                    </span>
+
+                </div>
+
+
+                <div class="demo-credential">
+
+                    <span class="demo-credential-label">
+                        Demo Email
+                    </span>
+
+                    <span class="demo-credential-value">
+                        demo@technova.com
+                    </span>
+
+                </div>
+
+
+                <div class="demo-credential">
+
+                    <span class="demo-credential-label">
+                        Demo Password
+                    </span>
+
+                    <span class="demo-credential-value">
+                        demo123
+                    </span>
+
+                </div>
+
+            </div>
+
+
             <!-- REGISTER LINK -->
 
             <div class="register-link">
+
                 New company?
+
                 <a href="{% url 'recruiter_register' %}">
                     Register Company
                 </a>
+
             </div>
+
 
             <!-- HOME LINK -->
 
             <div class="home-link">
+
                 <a href="{% url 'home' %}">
                     ← Back to Home
                 </a>
+
             </div>
+
 
             <!-- FOOTER -->
 
             <div class="login-footer">
+
                 <p>
                     Deogiri College Placement Platform
                 </p>
+
             </div>
 
         </div>
 
     </section>
 
+
     <!-- =========================
          PASSWORD SHOW / HIDE
     ========================= -->
 
     <script>
+
         const passwordInput =
             document.getElementById("password");
 
@@ -542,23 +723,28 @@
         const toggleIcon =
             passwordToggle.querySelector("i");
 
+
         passwordToggle.addEventListener("click", function () {
 
             const isPassword =
                 passwordInput.type === "password";
 
+
             passwordInput.type =
                 isPassword ? "text" : "password";
+
 
             toggleIcon.classList.toggle(
                 "fa-eye",
                 !isPassword
             );
 
+
             toggleIcon.classList.toggle(
                 "fa-eye-slash",
                 isPassword
             );
+
 
             passwordToggle.setAttribute(
                 "aria-label",
@@ -566,6 +752,7 @@
                     ? "Hide password"
                     : "Show password"
             );
+
 
             passwordToggle.setAttribute(
                 "title",
@@ -575,6 +762,7 @@
             );
 
         });
+
     </script>
 
 </body>

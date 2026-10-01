@@ -313,11 +313,83 @@
         }
 
         /* =========================
+           DEMO ACCESS
+        ========================= */
+
+        .demo-access {
+            margin-top: 20px;
+            padding: 15px 16px;
+            border-radius: 10px;
+            background: linear-gradient(
+                135deg,
+                #fff7fb,
+                #fffaf5
+            );
+            border: 1px solid #eadde8;
+            box-shadow: 0 4px 14px rgba(74, 26, 107, 0.05);
+        }
+
+        .demo-access-header {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 11px;
+        }
+
+        .demo-access-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #fff0f7;
+            color: var(--magenta);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .demo-access-header strong {
+            color: var(--purple);
+            font-size: 13px;
+        }
+
+        .demo-access-header span {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-left: auto;
+        }
+
+        .demo-credential {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 10px;
+            margin-top: 7px;
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: 7px;
+        }
+
+        .demo-credential-label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .demo-credential-value {
+            color: var(--purple);
+            font-size: 12px;
+            font-weight: 700;
+            font-family: "Courier New", monospace;
+        }
+
+        /* =========================
            HELP
         ========================= */
 
         .login-help {
-            margin-top: 22px;
+            margin-top: 16px;
             padding: 14px 15px;
             border-radius: 8px;
             background: var(--light-bg);
@@ -360,6 +432,7 @@
         ========================= */
 
         @media (max-width: 850px) {
+
             .login-container {
                 max-width: 520px;
                 grid-template-columns: 1fr;
@@ -387,6 +460,7 @@
         }
 
         @media (max-width: 600px) {
+
             .college-banner {
                 height: 90px;
                 object-fit: cover;
@@ -415,6 +489,16 @@
 
             .login-header h2 {
                 font-size: 23px;
+            }
+
+            .demo-credential {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .demo-access-header span {
+                display: none;
             }
         }
     </style>
@@ -586,6 +670,50 @@
                     </button>
 
                 </form>
+
+                <!-- =========================
+                     DEMO ACCESS
+                ========================= -->
+
+                <div class="demo-access">
+
+                    <div class="demo-access-header">
+
+                        <div class="demo-access-icon">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+
+                        <strong>Demo Access</strong>
+
+                        <span>For project demonstration</span>
+
+                    </div>
+
+                    <div class="demo-credential">
+
+                        <span class="demo-credential-label">
+                            Demo PRN
+                        </span>
+
+                        <span class="demo-credential-value">
+                            DEMO001
+                        </span>
+
+                    </div>
+
+                    <div class="demo-credential">
+
+                        <span class="demo-credential-label">
+                            Demo Password
+                        </span>
+
+                        <span class="demo-credential-value">
+                            demo123
+                        </span>
+
+                    </div>
+
+                </div>
 
                 <div class="login-help">
                     <strong>Login Help:</strong>
